@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/custrisk/!svn/ver/448/01_code/trunk/biappframe-web/src/main/webapp/common
+END
+500.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/custrisk/!svn/ver/448/01_code/trunk/biappframe-web/src/main/webapp/common/500.jsp
+END
+taglibs.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/custrisk/!svn/ver/448/01_code/trunk/biappframe-web/src/main/webapp/common/taglibs.jsp
+END
+wijmo.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/custrisk/!svn/ver/448/01_code/trunk/biappframe-web/src/main/webapp/common/wijmo.jsp
+END
+403.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/custrisk/!svn/ver/448/01_code/trunk/biappframe-web/src/main/webapp/common/403.jsp
+END
+meta.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/custrisk/!svn/ver/448/01_code/trunk/biappframe-web/src/main/webapp/common/meta.jsp
+END
+404.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/custrisk/!svn/ver/448/01_code/trunk/biappframe-web/src/main/webapp/common/404.jsp
+END
+zTree_load.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/custrisk/!svn/ver/448/01_code/trunk/biappframe-web/src/main/webapp/common/zTree_load.jsp
+END
+jquery_load.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/custrisk/!svn/ver/448/01_code/trunk/biappframe-web/src/main/webapp/common/jquery_load.jsp
+END
+ligerUI_load.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/custrisk/!svn/ver/448/01_code/trunk/biappframe-web/src/main/webapp/common/ligerUI_load.jsp
+END
