@@ -38,12 +38,12 @@ public class UserBS extends BaseBS<DgCtUser>{
 	@Transactional(readOnly=false)
 	public void test() throws IOException{
 		DgCtUser user = new DgCtUser();
-		user.setUserid("2342");
+		user.setUserId("2342");
 		user.setTelNum("ll111111");
 		user.setCtVs("1111111111");
 		
 		DgCtInfo info = new DgCtInfo();
-		info.setCtid("ll");
+		info.setCtId("ll");
 		info.setCtVs("11");
 		String sql = "update DgCtInfo d set d.outVs =12 where d.ctid='ll'";
 		//this.baseDAO.createQueryWithIndexParam(sql).executeUpdate();

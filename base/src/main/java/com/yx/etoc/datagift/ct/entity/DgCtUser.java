@@ -2,22 +2,25 @@ package com.yx.etoc.datagift.ct.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
 
 
 /**
- * The persistent class for the DG_CT_USER database table.
+ * The persistent class for the dg_ct_user database table.
  * 
  */
 @Entity
-@Table(name="DG_CT_USER")
+@Table(name="dg_ct_user")
 public class DgCtUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String userid;
+	@Column(name="USER_ID")
+	private String userId;
 
 	private String channel;
+
+	@Column(name="CREDIT_ID")
+	private String creditId;
 
 	@Column(name="CT_VS")
 	private String ctVs;
@@ -55,8 +58,6 @@ public class DgCtUser implements Serializable {
 	private String sex;
 
 	private String status;
-	
-	private String credit;
 
 	@Column(name="TEL_NUM")
 	private String telNum;
@@ -64,12 +65,12 @@ public class DgCtUser implements Serializable {
     public DgCtUser() {
     }
 
-	public String getUserid() {
-		return this.userid;
+	public String getUserId() {
+		return this.userId;
 	}
 
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getChannel() {
@@ -78,6 +79,14 @@ public class DgCtUser implements Serializable {
 
 	public void setChannel(String channel) {
 		this.channel = channel;
+	}
+
+	public String getCreditId() {
+		return this.creditId;
+	}
+
+	public void setCreditId(String creditId) {
+		this.creditId = creditId;
 	}
 
 	public String getCtVs() {
@@ -214,14 +223,6 @@ public class DgCtUser implements Serializable {
 
 	public void setTelNum(String telNum) {
 		this.telNum = telNum;
-	}
-
-	public String getCredit() {
-		return credit;
-	}
-
-	public void setCredit(String credit) {
-		this.credit = credit;
 	}
 
 }

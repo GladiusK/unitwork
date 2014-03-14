@@ -82,7 +82,7 @@ public class UserController extends BaseController {
 		}else {
 			// 保存用户到数据库
 			String userid = RandomUtils.uuid2();
-			user.setUserid(userid);
+			user.setUserId(userid);
 			user.setTelNum(tel);
 			user.setPass(obj.getString("password"));
 			user.setNickname(obj.getString("nickname"));
@@ -96,7 +96,7 @@ public class UserController extends BaseController {
 			rsMap.put("satus", GlobalConstants.CT_OK);
 			rsMap.put("userid", userid);
 			rsMap.put("status", GlobalConstants.CT_OK);
-			rsMap.put("userid", user.getUserid());
+			rsMap.put("userid", user.getUserId());
 			rsMap.put("nickname", user.getNickname());
 			rsMap.put("headimageurl", user.getImgPath());
 			rsMap.put("sex ", user.getSex());
@@ -157,7 +157,7 @@ public class UserController extends BaseController {
 		//判断是否OK 如果OK 返回
 		if(user !=null  && pass.equals(user.getPass())){
 			rsMap.put("status", GlobalConstants.CT_OK);
-			rsMap.put("userid", user.getUserid());
+			rsMap.put("userid", user.getUserId());
 			rsMap.put("nickname", user.getNickname());
 			rsMap.put("headimageurl", user.getImgPath());
 			rsMap.put("sex ", user.getSex());
@@ -185,7 +185,7 @@ public class UserController extends BaseController {
 		//判断是否OK 如果OK 返回
 		if(user != null){
 			rsMap.put("status", GlobalConstants.CT_OK);
-			rsMap.put("userid", user.getUserid());
+			rsMap.put("userid", user.getUserId());
 			rsMap.put("nickname", user.getNickname());
 			rsMap.put("headimageurl", user.getImgPath());
 			rsMap.put("sex ", user.getSex());
@@ -213,7 +213,7 @@ public class UserController extends BaseController {
 		if(user != null){
 			//增加经验  增加积分
 			rsMap.put("status", GlobalConstants.CT_OK);
-			rsMap.put("point", user.getCredit());
+			rsMap.put("point", user.getCreditId());
 			rsMap.put("level", user.getGrade());
 			rsMap.put("exp", user.getExpe());
 			return rsMap;

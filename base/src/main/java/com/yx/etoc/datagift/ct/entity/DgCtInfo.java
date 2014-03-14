@@ -5,16 +5,17 @@ import javax.persistence.*;
 
 
 /**
- * The persistent class for the DG_CT_INFO database table.
+ * The persistent class for the dg_ct_info database table.
  * 
  */
 @Entity
-@Table(name="DG_CT_INFO")
+@Table(name="dg_ct_info")
 public class DgCtInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String ctid;
+	@Column(name="CT_ID")
+	private String ctId;
 
 	@Column(name="CT_VS")
 	private String ctVs;
@@ -37,12 +38,12 @@ public class DgCtInfo implements Serializable {
     public DgCtInfo() {
     }
 
-	public String getCtid() {
-		return this.ctid;
+	public String getCtId() {
+		return this.ctId;
 	}
 
-	public void setCtid(String ctid) {
-		this.ctid = ctid;
+	public void setCtId(String ctId) {
+		this.ctId = ctId;
 	}
 
 	public String getCtVs() {

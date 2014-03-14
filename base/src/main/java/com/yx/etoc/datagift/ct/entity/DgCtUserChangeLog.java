@@ -5,11 +5,11 @@ import javax.persistence.*;
 
 
 /**
- * The persistent class for the DG_CT_USER_CHANGE_LOG database table.
+ * The persistent class for the dg_ct_user_change_log database table.
  * 
  */
 @Entity
-@Table(name="DG_CT_USER_CHANGE_LOG")
+@Table(name="dg_ct_user_change_log")
 public class DgCtUserChangeLog implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -17,6 +17,9 @@ public class DgCtUserChangeLog implements Serializable {
 	private DgCtUserChangeLogPK id;
 
 	private String channel;
+
+	@Column(name="CREDIT_ID")
+	private String creditId;
 
 	@Column(name="CT_VS")
 	private String ctVs;
@@ -54,8 +57,6 @@ public class DgCtUserChangeLog implements Serializable {
 	private String sex;
 
 	private String status;
-	
-	private String credit;
 
 	@Column(name="TEL_NUM")
 	private String telNum;
@@ -77,6 +78,14 @@ public class DgCtUserChangeLog implements Serializable {
 
 	public void setChannel(String channel) {
 		this.channel = channel;
+	}
+
+	public String getCreditId() {
+		return this.creditId;
+	}
+
+	public void setCreditId(String creditId) {
+		this.creditId = creditId;
 	}
 
 	public String getCtVs() {
@@ -213,14 +222,6 @@ public class DgCtUserChangeLog implements Serializable {
 
 	public void setTelNum(String telNum) {
 		this.telNum = telNum;
-	}
-
-	public String getCredit() {
-		return credit;
-	}
-
-	public void setCredit(String credit) {
-		this.credit = credit;
 	}
 
 }

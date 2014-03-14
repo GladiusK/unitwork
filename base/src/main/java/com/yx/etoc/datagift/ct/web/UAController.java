@@ -48,7 +48,7 @@ public class UAController extends BaseController {
 			rsMap.put("status",GlobalConstants.CT_PARAM_NULL);
 			return rsMap;
 		}
-		if("".equals(usr.getUserid())){
+		if("".equals(usr.getUserId())){
 			//未注册用户
 			rsMap.put("status",GlobalConstants.CT_OK);
 			return rsMap;

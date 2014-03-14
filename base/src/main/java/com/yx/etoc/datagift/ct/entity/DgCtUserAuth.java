@@ -5,16 +5,17 @@ import javax.persistence.*;
 
 
 /**
- * The persistent class for the DG_CT_USER_AUTH database table.
+ * The persistent class for the dg_ct_user_auth database table.
  * 
  */
 @Entity
-@Table(name="DG_CT_USER_AUTH")
+@Table(name="dg_ct_user_auth")
 public class DgCtUserAuth implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String userid;
+	@Column(name="USER_ID")
+	private String userId;
 
 	@Column(name="LIST_TYPE")
 	private String listType;
@@ -22,12 +23,12 @@ public class DgCtUserAuth implements Serializable {
     public DgCtUserAuth() {
     }
 
-	public String getUserid() {
-		return this.userid;
+	public String getUserId() {
+		return this.userId;
 	}
 
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getListType() {
