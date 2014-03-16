@@ -25,10 +25,10 @@ public class DgCdInfoH implements Serializable {
 	@Column(name="CREDIT_TYPE")
 	private String creditType;
 
-	private String remark;
+	@Column(name="MODULE_ID")
+	private String moduleId;
 
-	@Column(name="TYPE_ID")
-	private String typeId;
+	private String remark;
 
     public DgCdInfoH() {
     }
@@ -65,20 +65,20 @@ public class DgCdInfoH implements Serializable {
 		this.creditType = creditType;
 	}
 
+	public String getModuleId() {
+		return this.moduleId;
+	}
+
+	public void setModuleId(String moduleId) {
+		this.moduleId = moduleId;
+	}
+
 	public String getRemark() {
 		return this.remark;
 	}
 
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-
-	public String getTypeId() {
-		return this.typeId;
-	}
-
-	public void setTypeId(String typeId) {
-		this.typeId = typeId;
 	}
 
 }

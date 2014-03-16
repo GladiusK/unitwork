@@ -11,30 +11,23 @@
 * </pre>
 */
 
-package com.yx.etoc.datagift.ct.service;
+package com.yx.etoc.datagift.cd.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yx.baseframe.service.BaseBS;
-import com.yx.etoc.datagift.ct.entity.DgCtUser;
+import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
+
 
 /** 
- * @ClassName: UserBS 
- * @Description: TODO(客户端用户信息管理) 
- * @author yuxuan
- * @date 2014-3-7 上午2:37:08 
- *  
- */
+* @ClassName: CreditBS 
+* @Description: TODO(积分历史管理) 
+* @author yuxuan
+* @date 2014-3-14 上午9:24:21 
+*  
+*/
 @Service
 @Transactional(readOnly=true)
-public class UserBS extends BaseBS<DgCtUser>{
-	@Transactional(readOnly=false)
-	public DgCtUser createNewUser(DgCtUser user){
-		user.setImgPath("xx");
-		user.setGrade("0");
-		user.setExpe("0");
-		this.saveEntity(user);
-		return user;
-	}
+public class CreditBS extends BaseBS<DgCdInfoH>{
 }

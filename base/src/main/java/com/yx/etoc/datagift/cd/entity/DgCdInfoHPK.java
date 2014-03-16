@@ -15,8 +15,8 @@ public class DgCdInfoHPK implements Serializable {
 	@Column(name="UPDATE_TIME")
 	private String updateTime;
 
-	@Column(name="CREDIT_ID")
-	private String creditId;
+	@Column(name="USER_ID")
+	private String userId;
 
     public DgCdInfoHPK() {
     }
@@ -26,11 +26,11 @@ public class DgCdInfoHPK implements Serializable {
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
 	}
-	public String getCreditId() {
-		return this.creditId;
+	public String getUserId() {
+		return this.userId;
 	}
-	public void setCreditId(String creditId) {
-		this.creditId = creditId;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public boolean equals(Object other) {
@@ -43,7 +43,7 @@ public class DgCdInfoHPK implements Serializable {
 		DgCdInfoHPK castOther = (DgCdInfoHPK)other;
 		return 
 			this.updateTime.equals(castOther.updateTime)
-			&& this.creditId.equals(castOther.creditId);
+			&& this.userId.equals(castOther.userId);
 
     }
     
@@ -51,7 +51,7 @@ public class DgCdInfoHPK implements Serializable {
 		final int prime = 31;
 		int hash = 17;
 		hash = hash * prime + this.updateTime.hashCode();
-		hash = hash * prime + this.creditId.hashCode();
+		hash = hash * prime + this.userId.hashCode();
 		
 		return hash;
     }

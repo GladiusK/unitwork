@@ -19,9 +19,6 @@ public class DgCtUser implements Serializable {
 
 	private String channel;
 
-	@Column(name="CREDIT_ID")
-	private String creditId;
-
 	@Column(name="CT_VS")
 	private String ctVs;
 
@@ -53,6 +50,9 @@ public class DgCtUser implements Serializable {
 
 	private String pass;
 
+	@Column(name="REMAIN_CREDIT")
+	private String remainCredit;
+
 	private String resolution;
 
 	private String sex;
@@ -61,6 +61,9 @@ public class DgCtUser implements Serializable {
 
 	@Column(name="TEL_NUM")
 	private String telNum;
+
+	@Column(name="TOTAL_CREDIT")
+	private String totalCredit;
 
     public DgCtUser() {
     }
@@ -79,14 +82,6 @@ public class DgCtUser implements Serializable {
 
 	public void setChannel(String channel) {
 		this.channel = channel;
-	}
-
-	public String getCreditId() {
-		return this.creditId;
-	}
-
-	public void setCreditId(String creditId) {
-		this.creditId = creditId;
 	}
 
 	public String getCtVs() {
@@ -193,6 +188,14 @@ public class DgCtUser implements Serializable {
 		this.pass = pass;
 	}
 
+	public String getRemainCredit() {
+		return this.remainCredit;
+	}
+
+	public void setRemainCredit(String remainCredit) {
+		this.remainCredit = remainCredit;
+	}
+
 	public String getResolution() {
 		return this.resolution;
 	}
@@ -223,6 +226,14 @@ public class DgCtUser implements Serializable {
 
 	public void setTelNum(String telNum) {
 		this.telNum = telNum;
+	}
+
+	public String getTotalCredit() {
+		return this.totalCredit;
+	}
+
+	public void setTotalCredit(String totalCredit) {
+		this.totalCredit = totalCredit;
 	}
 
 }

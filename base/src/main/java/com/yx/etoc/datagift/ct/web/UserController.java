@@ -9,11 +9,9 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
@@ -89,10 +87,7 @@ public class UserController extends BaseController {
 			user.setImei(obj.getString("imei"));
 			user.setSex(obj.getString("sex"));
 			user.setMac(obj.getString("mac"));
-			user.setImgPath("xx");
-			user.setGrade("0");
-			user.setExpe("0");
-			userBS.saveEntity(user);
+			user = userBS.createNewUser(user);
 			rsMap.put("satus", GlobalConstants.CT_OK);
 			rsMap.put("userid", userid);
 			rsMap.put("status", GlobalConstants.CT_OK);
@@ -213,7 +208,7 @@ public class UserController extends BaseController {
 		if(user != null){
 			//增加经验  增加积分
 			rsMap.put("status", GlobalConstants.CT_OK);
-			rsMap.put("point", user.getCreditId());
+			rsMap.put("point", user.getRemainCredit());
 			rsMap.put("level", user.getGrade());
 			rsMap.put("exp", user.getExpe());
 			return rsMap;
