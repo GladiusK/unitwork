@@ -17,7 +17,7 @@ public class DgCdInfoH implements Serializable {
 	private DgCdInfoHPK id;
 
 	@Column(name="CREDIT_COUNT")
-	private String creditCount;
+	private int creditCount;
 
 	@Column(name="CREDIT_REL")
 	private String creditRel;
@@ -41,11 +41,11 @@ public class DgCdInfoH implements Serializable {
 		this.id = id;
 	}
 	
-	public String getCreditCount() {
+	public int getCreditCount() {
 		return this.creditCount;
 	}
 
-	public void setCreditCount(String creditCount) {
+	public void setCreditCount(int creditCount) {
 		this.creditCount = creditCount;
 	}
 

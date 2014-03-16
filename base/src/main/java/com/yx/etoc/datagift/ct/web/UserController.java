@@ -31,15 +31,25 @@ public class UserController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/test")
 	public void test(@RequestBody String rquestParam) throws IOException{
-		RestTemplate restTemplate = new RestTemplate();
-		Map<String ,Object> urlVariables = Maps.newHashMap();
-		 urlVariables.put("sendNum", "18502717626"); 
-		 urlVariables.put("content", "短信测试"); 
-		 String url = "http://113.57.230.8:8080/APOP-DSH/SendSms";
-		 String msg = restTemplate.postForObject(url, null, String.class, urlVariables);
-		 System.out.println(msg);
+//		RestTemplate restTemplate = new RestTemplate();
+//		Map<String ,Object> urlVariables = Maps.newHashMap();
+//		 urlVariables.put("sendNum", "18502717626"); 
+//		 urlVariables.put("content", "短信测试"); 
+//		 String url = "http://113.57.230.8:8080/APOP-DSH/SendSms";
+//		 String msg = restTemplate.postForObject(url, null, String.class, urlVariables);
+//		 System.out.println(msg);
 //		JSONObject obj = JSONObject.fromObject(rquestParam);
 //		obj.getString("test");
+		DgCtUser user = new DgCtUser();
+		String userid = RandomUtils.uuid2();
+		user.setUserId(userid);
+		user.setTelNum("18333333333");
+		user.setPass("123");
+		user.setNickname("王瑞");
+		user.setImei("jljjlljlkjkl");
+		user.setSex("1");
+		user.setMac("ljljl");
+		user = userBS.createNewUser(user);
 	}
 	/**
 	 * @Title: register
@@ -51,9 +61,8 @@ public class UserController extends BaseController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public Map<String, String> register(@RequestBody String rquestParam)  {
-		Map<String, String> rsMap = Maps.newHashMap();
-		DgCtUser user = new DgCtUser();
+	public Map<String, Object> register(@RequestBody String rquestParam)  {
+		Map<String, Object> rsMap = Maps.newHashMap();
 		JSONObject obj = JSONObject.fromObject(rquestParam);
 		if (obj.isEmpty()) {
 			rsMap.put("status", GlobalConstants.CT_PARAM_NULL);
@@ -78,6 +87,7 @@ public class UserController extends BaseController {
 			rsMap.put("status", GlobalConstants.CT_USR_EXIST);
 			return rsMap;
 		}else {
+			DgCtUser user = new DgCtUser();
 			// 保存用户到数据库
 			String userid = RandomUtils.uuid2();
 			user.setUserId(userid);
@@ -88,7 +98,6 @@ public class UserController extends BaseController {
 			user.setSex(obj.getString("sex"));
 			user.setMac(obj.getString("mac"));
 			user = userBS.createNewUser(user);
-			rsMap.put("satus", GlobalConstants.CT_OK);
 			rsMap.put("userid", userid);
 			rsMap.put("status", GlobalConstants.CT_OK);
 			rsMap.put("userid", user.getUserId());
@@ -98,6 +107,7 @@ public class UserController extends BaseController {
 			rsMap.put("level ", user.getGrade());
 			rsMap.put("exp ", user.getExpe());
 			rsMap.put("tel", user.getTelNum());
+			rsMap.put("point", user.getRemainCredit());
 			return rsMap;
 		}
 	}
@@ -112,8 +122,8 @@ public class UserController extends BaseController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/gcode", method = RequestMethod.POST)
-	public Map<String, String> createCode(@RequestBody String rquestParam) {
-		Map<String, String> rsMap = Maps.newHashMap();
+	public Map<String, Object> createCode(@RequestBody String rquestParam) {
+		Map<String, Object> rsMap = Maps.newHashMap();
 		JSONObject obj = JSONObject.fromObject(rquestParam);
 		if (obj.isEmpty()) {
 			rsMap.put("status", GlobalConstants.CT_PARAM_NULL);
@@ -139,8 +149,8 @@ public class UserController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value="/login",method=RequestMethod.POST)
-	public Map<String,String> login(@RequestBody String rquestParam){
-		Map<String, String> rsMap = Maps.newHashMap();
+	public Map<String,Object> login(@RequestBody String rquestParam){
+		Map<String, Object> rsMap = Maps.newHashMap();
 		JSONObject obj = JSONObject.fromObject(rquestParam);
 		if (obj.isEmpty()) {
 			rsMap.put("status", GlobalConstants.CT_PARAM_NULL);
@@ -159,6 +169,7 @@ public class UserController extends BaseController {
 			rsMap.put("level ", user.getGrade());
 			rsMap.put("exp ", user.getExpe());
 			rsMap.put("tel", user.getTelNum());
+			rsMap.put("point", user.getRemainCredit());
 			return rsMap;
 		}else{
 			rsMap.put("status", GlobalConstants.CT_PASS_NOMACHE);
@@ -168,8 +179,8 @@ public class UserController extends BaseController {
 	}
 	@ResponseBody
 	@RequestMapping(value="/autologin",method=RequestMethod.POST)
-	public Map<String,String> autoLogin(@RequestBody String rquestParam){
-		Map<String, String> rsMap = Maps.newHashMap();
+	public Map<String,Object> autoLogin(@RequestBody String rquestParam){
+		Map<String, Object> rsMap = Maps.newHashMap();
 		JSONObject obj = JSONObject.fromObject(rquestParam);
 		if (obj.isEmpty()) {
 			rsMap.put("status", GlobalConstants.CT_PARAM_NULL);
@@ -195,8 +206,8 @@ public class UserController extends BaseController {
 	
 	@ResponseBody
 	@RequestMapping(value="/daySign",method=RequestMethod.POST)
-	public Map<String,String> daySign(@RequestBody String rquestParam){
-		Map<String, String> rsMap = Maps.newHashMap();
+	public Map<String,Object> daySign(@RequestBody String rquestParam){
+		Map<String, Object> rsMap = Maps.newHashMap();
 		JSONObject obj = JSONObject.fromObject(rquestParam);
 		if (obj.isEmpty()) {
 			rsMap.put("status", GlobalConstants.CT_PARAM_NULL);

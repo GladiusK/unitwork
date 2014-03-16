@@ -34,4 +34,14 @@ public class GlobalConstants {
 	public static final String CT_NO_USR = "138115";
 	//用户已经注册
 	public static final String CT_USR_EXIST = "138116";
+	//用户已经签到
+	public static final String CT_USR_DAYSIGN_AGAIN = "138117";
+	
+	//任务类型
+	//每日签到
+	public static final String CT_TASK_DAY_SIGN = "1";
+	//每日下载流量应用
+	public static final String CT_TASK_DAY_FLOW_DOWNLOAD = "21";
+	//每日下载非流量应用
+	public static final String CT_TASK_DAY_NOFLOW_DOWNLOAD = "22";
 }
