@@ -13,6 +13,8 @@
 
 package com.yx.etoc.datagift.common;
 
+import java.io.UnsupportedEncodingException;
+
 import net.sf.json.JSONException;
 
 import org.springframework.stereotype.Controller;
@@ -32,8 +34,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class GlobalExceptionHandle {
 	@ExceptionHandler(JSONException.class)
 	@ResponseBody
-	public String test(Exception ex){
+	public String test(Exception ex) {
 		ex.printStackTrace();
-		return ex.getMessage();
+		return  GlobalConstants.CT_PARAM_NOMACHE+ex.getMessage();
 	}
 }

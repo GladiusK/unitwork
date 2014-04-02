@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 
 import com.google.common.collect.Maps;
 import com.yx.baseframe.util.BaseController;
@@ -22,12 +21,17 @@ import com.yx.baseframe.util.RandomUtils;
 import com.yx.etoc.datagift.common.GlobalConstants;
 import com.yx.etoc.datagift.ct.entity.DgCtUser;
 import com.yx.etoc.datagift.ct.service.UserBS;
+import com.yx.etoc.datagift.task.service.TaskUserRelBS;
 
 @Controller
 @RequestMapping("/dg/user")
 public class UserController extends BaseController {
 	@Autowired
 	private UserBS userBS;
+	
+	@Autowired
+	private TaskUserRelBS taskUserRelBS;
+	
 	@ResponseBody
 	@RequestMapping(value = "/test")
 	public void test(@RequestBody String rquestParam) throws IOException{
@@ -103,9 +107,9 @@ public class UserController extends BaseController {
 			rsMap.put("userid", user.getUserId());
 			rsMap.put("nickname", user.getNickname());
 			rsMap.put("headimageurl", user.getImgPath());
-			rsMap.put("sex ", user.getSex());
+			rsMap.put("sex", user.getSex());
 			rsMap.put("level ", user.getGrade());
-			rsMap.put("exp ", user.getExpe());
+			rsMap.put("exp", user.getExpe());
 			rsMap.put("tel", user.getTelNum());
 			rsMap.put("point", user.getRemainCredit());
 			return rsMap;
@@ -165,11 +169,16 @@ public class UserController extends BaseController {
 			rsMap.put("userid", user.getUserId());
 			rsMap.put("nickname", user.getNickname());
 			rsMap.put("headimageurl", user.getImgPath());
-			rsMap.put("sex ", user.getSex());
+			rsMap.put("sex", user.getSex());
 			rsMap.put("level ", user.getGrade());
-			rsMap.put("exp ", user.getExpe());
+			rsMap.put("exp", user.getExpe());
 			rsMap.put("tel", user.getTelNum());
 			rsMap.put("point", user.getRemainCredit());
+			if(taskUserRelBS.checkDayTask(user.getUserId(), GlobalConstants.CT_TASK_DAY_SIGN)){
+				rsMap.put("daysign", "1");
+			}else{
+				rsMap.put("daysign", "0");
+			}
 			return rsMap;
 		}else{
 			rsMap.put("status", GlobalConstants.CT_PASS_NOMACHE);
@@ -194,9 +203,15 @@ public class UserController extends BaseController {
 			rsMap.put("userid", user.getUserId());
 			rsMap.put("nickname", user.getNickname());
 			rsMap.put("headimageurl", user.getImgPath());
-			rsMap.put("sex ", user.getSex());
+			rsMap.put("sex", user.getSex());
 			rsMap.put("level ", user.getGrade());
-			rsMap.put("exp ", user.getExpe());
+			rsMap.put("exp", user.getExpe());
+			if(taskUserRelBS.checkDayTask(user.getUserId(), GlobalConstants.CT_TASK_DAY_SIGN)){
+				rsMap.put("daysign", "1");
+			}else{
+				rsMap.put("daysign", "0");
+			}
+			rsMap.put("point", user.getRemainCredit());
 			return rsMap;
 		}else{
 			rsMap.put("status", GlobalConstants.CT_NO_USR);

@@ -49,7 +49,24 @@ public class TaskUserRelBS extends BaseBS<DgTaskUserRel>{
 		return taskRel;
 	}
 	
-	public void updateTaskRel(DgTaskUserRel obj){
-		
+	/** 
+	* @Title: checkDaySign 
+	* @Description: TODO(天天签到这种任务类型) 
+	* @param @param userid
+	* @param @param type
+	* @param @return    设定文件 
+	* @return boolean    返回类型 
+	* @throws 
+	*/
+	public boolean checkDayTask(String userid,String type){
+		DgTaskUserRel rel = this.getTaskByUser(userid, type);
+		if(rel == null){
+			return false;
+		}
+		if(!DateTools.getCurrentDateString().equals(rel.getUpdateDate()) || "0".equals(rel.getTaskStatus())){
+			return false;
+		}else{
+			return true;
+		}
 	}
 }

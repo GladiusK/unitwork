@@ -27,7 +27,8 @@
 			</list>          
     	</property>          
 	</bean>     -->
-	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>  <!--通过注解，把一个URL映射到Controller类上-->    
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/> <!--通过注解，把一个URL映射到Controller类上-->  
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  <!--通过注解，把一个URL映射到Controller类的方法上-->
 		<property name="webBindingInitializer">
 			<bean class="com.yx.baseframe.web.SmartDataBinding" />

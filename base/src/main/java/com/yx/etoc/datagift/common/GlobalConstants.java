@@ -30,6 +30,8 @@ public class GlobalConstants {
 	public static final String CT_USR_NOAGAIN_IN = "138112";
 	//验证码无效
 	public static final String TEL_REG_NOMACHE = "138113";
+	//客户端参数名称不匹配
+	public static final String CT_PARAM_NOMACHE = "138114";
 	//用户不存在
 	public static final String CT_NO_USR = "138115";
 	//用户已经注册

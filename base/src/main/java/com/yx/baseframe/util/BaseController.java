@@ -144,10 +144,11 @@ public abstract class BaseController {
 		// .getSession().getServletContext().getServletContextName();
 		// return path;
 
-		/* @Revision 20130403105200-liuch */
+		
 		// return GlobalConstants.APP_CONTEXT_PATH;
-		/* @Revision 20130403105200-liuch END */
-		return ((ServletRequestAttributes) RequestContextHolder
-				.getRequestAttributes()).getRequest().getContextPath();
+		
+//		return ((ServletRequestAttributes) RequestContextHolder
+//				.getRequestAttributes()).getRequest().getContextPath();
+		return System.getProperty("base.root");
 	}
 }

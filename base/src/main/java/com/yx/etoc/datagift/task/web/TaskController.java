@@ -73,7 +73,7 @@ public class TaskController extends BaseController {
 		if(user != null){
 			rsMap.put("status", GlobalConstants.CT_OK);
 			DgTaskUserRel rel = taskUserRelBS.getTaskByUser(user.getUserId(), GlobalConstants.CT_TASK_DAY_SIGN);
-			if(!DateTools.getCurrentDateString().equals(rel.getUpdateDate()) || "0".equals(rel.getTaskStatus())){
+			if(!taskUserRelBS.checkDayTask(userid, GlobalConstants.CT_TASK_DAY_SIGN)){
 				//对于每日签到任务,判断任务完成时间是不是当天，如果不是，则进行签到加积分
 				DgTaskInfo task = taskInfoBS.getEntityById(rel.getId().getTaskId());
 				rel.setCompleteCount(1);
