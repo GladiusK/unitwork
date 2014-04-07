@@ -61,7 +61,7 @@ public class AppManageBS extends BaseBS<DgAppInfo>{
 			appDTO.setSteps(StringUtils.split(app.getStep()));
 			appDTO.setIntro(app.getAppRemark());
 			appDTO.setDownnum(Math.random()*10000+"");
-			appDTO.setType("1");
+			appDTO.setType(app.getActType());
 			appDTO.setPoint(app.getCreditCount()+"");
 			appDTO.setExp(app.getExpeCount()+"");
 			appDTO.setData(app.getFluxCount()+"");

@@ -79,7 +79,7 @@ public class TaskController extends BaseController {
 				rel.setCompleteCount(1);
 				rel.setTaskStatus("1");
 				rel.setUpdateDate(DateTools.getCurrentDateString());
-				user = userBS.calculate(user, task.getExpeCount(),rel,GlobalConstants.CT_TASK_DAY_SIGN);
+				user = userBS.calculate(user, task.getExpeCount(), task.getCreditCount(), rel,GlobalConstants.CT_TASK_DAY_SIGN);
 				rsMap.put("status", GlobalConstants.CT_OK);
 				rsMap.put("point", user.getRemainCredit());
 				rsMap.put("exp", user.getExpe());

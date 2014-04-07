@@ -38,6 +38,11 @@ public class GlobalConstants {
 	public static final String CT_USR_EXIST = "138116";
 	//用户已经签到
 	public static final String CT_USR_DAYSIGN_AGAIN = "138117";
+	//应用不存在
+	public static final String CT_APP_NOEXIST = "138118";
+	//改用户已经进行过下载
+	public static final String CT_APP_USER_ALREADY_DOWN = "138119";
+	
 	
 	//任务类型
 	//每日签到
@@ -46,4 +51,20 @@ public class GlobalConstants {
 	public static final String CT_TASK_DAY_FLOW_DOWNLOAD = "21";
 	//每日下载非流量应用
 	public static final String CT_TASK_DAY_NOFLOW_DOWNLOAD = "22";
+	
+	//积分类型
+	//每日签到
+	public static final String CT_CD_DAY_SIGN = "1";
+	//下载流量应用
+	public static final String CT_CD_FLOW_DOWNLOAD = "21";
+	//下载非流量应用
+	public static final String CT_CD_NOFLOW_DOWNLOAD = "22";
+	//升级奖励积分
+	public static final String CT_CD_GRADE_UP ="3";
+	
+	//积分关系
+	//增加
+	public static final String CT_CD_CREDIT_REL_ADD = "1";
+	//减少
+	public static final String CT_CD_CREDIT_REL_REDUCE = "2";
 }

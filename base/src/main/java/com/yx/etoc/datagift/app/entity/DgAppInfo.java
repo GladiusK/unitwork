@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -19,6 +22,8 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import com.yx.etoc.datagift.ct.entity.DgCtUser;
 
 /**
  * The persistent class for the dg_app_info database table.
@@ -48,7 +53,7 @@ public class DgAppInfo implements Serializable {
 	@Column(name = "APP_SIZE")
 	private String appSize;
 
-	@OneToOne(cascade = { CascadeType.ALL }, optional = false, fetch = FetchType.EAGER, targetEntity = DgAppCategory.class)
+	@OneToOne(cascade = { CascadeType.REFRESH }, optional = false, fetch = FetchType.LAZY, targetEntity = DgAppCategory.class)
 	@JoinColumn(name = "CATEGORY_ID", nullable = false, updatable = false)
 	@JsonIgnore
 	private DgAppCategory category;
@@ -75,13 +80,18 @@ public class DgAppInfo implements Serializable {
 	private String packageName;
 
 	private String step;
+	
+	@Column(name = "ACT_TYPE")
+	private String actType;
 
 	private BigDecimal weight;
 	
-	@OneToMany(mappedBy="appinfo",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
-	@JsonIgnore
+	@OneToMany(mappedBy="appinfo",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	private List<DgAppImg> imgs = Lists.newArrayList();
-
+	
+	@ManyToMany(mappedBy="apps")
+	private Set<DgCtUser> users = Sets.newHashSet();
+	
 	public DgAppInfo() {
 	}
 
@@ -223,5 +233,45 @@ public class DgAppInfo implements Serializable {
 		this.imgs = imgs;
 	}
 
-	
+	public String getActType() {
+		return actType;
+	}
+
+	public void setActType(String actType) {
+		this.actType = actType;
+	}
+
+	public Set<DgCtUser> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<DgCtUser> users) {
+		this.users = users;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((appId == null) ? 0 : appId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DgAppInfo other = (DgAppInfo) obj;
+		if (appId == null) {
+			if (other.appId != null)
+				return false;
+		} else if (!appId.equals(other.appId))
+			return false;
+		return true;
+	}
+
 }

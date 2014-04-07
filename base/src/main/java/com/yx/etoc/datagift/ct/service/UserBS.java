@@ -21,6 +21,7 @@ import com.yx.baseframe.service.BaseBS;
 import com.yx.baseframe.util.DateTools;
 import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
 import com.yx.etoc.datagift.cd.entity.DgCdInfoHPK;
+import com.yx.etoc.datagift.common.GlobalConstants;
 import com.yx.etoc.datagift.ct.entity.DgCtUser;
 import com.yx.etoc.datagift.ct.entity.DgExpGrdRel;
 import com.yx.etoc.datagift.task.entity.DgTaskUserRel;
@@ -64,27 +65,40 @@ public class UserBS extends BaseBS<DgCtUser>{
 	* @throws  目前该算法，只能进行等级升级的一次奖励，如果经验的增加，使得级别增加幅度大于1级，那么积分的奖励也只奖励当前级别的积分，不叠加
 	*/
 	@Transactional(readOnly = false)
-	public DgCtUser calculate(DgCtUser user,int createExp,DgTaskUserRel taskRel,String detailType){
-		int tmpExp = createExp+user.getExpe();
-		String sql = "select obj from DgExpGrdRel obj where obj.expeFloor <= ?0 and ?0<obj.expeTop";
-		DgExpGrdRel expRel = (DgExpGrdRel) this.baseDAO.createQueryWithIndexParam(sql, tmpExp).getSingleResult();
-			user.setExpe(tmpExp);
-			user.setGrade(expRel.getGradeCount());
-			user.setTotalCredit(user.getRemainCredit()+expRel.getCreditExtra());
-			user.setRemainCredit(user.getRemainCredit()+expRel.getCreditExtra());
-			this.updateEntity(user);
+	public DgCtUser calculate(DgCtUser user,int createExp,int createCredit,DgTaskUserRel taskRel,String detailType){
+			this.calculateGrade(user, createExp, createCredit);
 			taskUserRelBS.updateEntity(taskRel);
-			DgCdInfoH cdInfo = new DgCdInfoH();
-			DgCdInfoHPK id = new DgCdInfoHPK();
-			id.setUserId(user.getUserId());
-			id.setUpdateTime(DateTools.getCurrentStringDateTime());
-			cdInfo.setId(id);
-			cdInfo.setCreditType(detailType);
-			cdInfo.setModuleId(taskRel.getId().getTaskId());
-			cdInfo.setCreditCount(createExp);
-			creditDetailBS.saveEntity(cdInfo);
+			creditDetailBS.saveCustEntity(user.getUserId(), detailType, taskRel.getId().getTaskId(), createExp, GlobalConstants.CT_CD_CREDIT_REL_ADD);
 			return user;
 		
 	}
-	
+	/** 
+	* @Title: calculateGrade 
+	* @Description: TODO(经验增加后用户的积分变换情况) 
+	* @param @param user
+	* @param @param createExp
+	* @param @param createCredit
+	* @param @return    设定文件 
+	* @return DgCtUser    返回类型 
+	* @throws 
+	*/
+	@Transactional(readOnly = false)
+	public DgCtUser calculateGrade(DgCtUser user, int createExp, int createCredit){
+		int tmpExp = createExp+user.getExpe();
+		String sql = "select obj from DgExpGrdRel obj where obj.expeFloor <= ?0 and ?0<obj.expeTop";
+		DgExpGrdRel expRel = (DgExpGrdRel) this.baseDAO.createQueryWithIndexParam(sql, tmpExp).getSingleResult();
+		if(user.getGrade() != expRel.getGradeCount()){
+			user.setExpe(tmpExp);
+			user.setGrade(expRel.getGradeCount());
+			int extra = expRel.getCreditExtra()+createCredit;
+			user.setTotalCredit(user.getRemainCredit()+ extra);
+			user.setRemainCredit(user.getRemainCredit()+ extra);
+			creditDetailBS.saveCustEntity(user.getUserId(),GlobalConstants.CT_CD_GRADE_UP,expRel.getGradeId(),expRel.getGradeCount(),GlobalConstants.CT_CD_CREDIT_REL_ADD);
+			
+		}else{
+			user.setExpe(createExp+user.getExpe());
+		}
+		this.updateEntity(user);
+		return user;
+	}
 }

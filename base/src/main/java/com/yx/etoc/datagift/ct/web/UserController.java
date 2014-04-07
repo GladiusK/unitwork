@@ -170,7 +170,7 @@ public class UserController extends BaseController {
 			rsMap.put("nickname", user.getNickname());
 			rsMap.put("headimageurl", user.getImgPath());
 			rsMap.put("sex", user.getSex());
-			rsMap.put("level ", user.getGrade());
+			rsMap.put("level", user.getGrade());
 			rsMap.put("exp", user.getExpe());
 			rsMap.put("tel", user.getTelNum());
 			rsMap.put("point", user.getRemainCredit());
@@ -204,7 +204,7 @@ public class UserController extends BaseController {
 			rsMap.put("nickname", user.getNickname());
 			rsMap.put("headimageurl", user.getImgPath());
 			rsMap.put("sex", user.getSex());
-			rsMap.put("level ", user.getGrade());
+			rsMap.put("level", user.getGrade());
 			rsMap.put("exp", user.getExpe());
 			if(taskUserRelBS.checkDayTask(user.getUserId(), GlobalConstants.CT_TASK_DAY_SIGN)){
 				rsMap.put("daysign", "1");

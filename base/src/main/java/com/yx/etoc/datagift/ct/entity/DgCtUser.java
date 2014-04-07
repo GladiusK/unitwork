@@ -1,7 +1,13 @@
 package com.yx.etoc.datagift.ct.entity;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.*;
+
+import com.google.common.collect.Sets;
+import com.yx.etoc.datagift.app.entity.DgAppInfo;
 
 
 /**
@@ -64,6 +70,10 @@ public class DgCtUser implements Serializable {
 
 	@Column(name="TOTAL_CREDIT")
 	private int totalCredit;
+	
+	@ManyToMany
+	@JoinTable(name ="dg_app_down_h", joinColumns=@JoinColumn(name ="USER_ID"),inverseJoinColumns=@JoinColumn(name ="APP_ID"))
+	private Set<DgAppInfo> apps = Sets.newHashSet();
 
     public DgCtUser() {
     }
@@ -236,4 +246,37 @@ public class DgCtUser implements Serializable {
 		this.totalCredit = totalCredit;
 	}
 
+	public Set<DgAppInfo> getApps() {
+		return apps;
+	}
+
+	public void setApps(Set<DgAppInfo> apps) {
+		this.apps = apps;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DgCtUser other = (DgCtUser) obj;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
+			return false;
+		return true;
+	}
+	
 }

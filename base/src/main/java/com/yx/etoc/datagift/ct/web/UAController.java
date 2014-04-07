@@ -52,7 +52,7 @@ public class UAController extends BaseController {
 		ct.setIp(this.getRequest().getRemoteAddr());
 		ct.setServertime(System.currentTimeMillis()+"");
 		ct.setFilePath("http://channel.looklook.cn:8091/download/api/download.do?productcode=3&systemcode=101");
-		ct.setVsRemark("更正了B瑞的抱怨");
+		ct.setVsRemark("优化了程序的速度");
 		rsMap.put("outVs", ct.getOutVs());
 		rsMap.put("ip", ct.getIp());
 		rsMap.put("upgrageType", ct.getUpgrageType());
@@ -91,16 +91,16 @@ public class UAController extends BaseController {
 			urlLists.add("http://www.songliuliang.com/woapp/jsp/images/banner2.jpg");
 			
 			List<String> speakLists = Lists.newArrayList(); 
-			speakLists.add("恭喜B瑞被踢出游戏");
+			speakLists.add("恭喜用户DG001 获得100积分奖励");
 			speakLists.add("买100送50活动即将开启");
-			speakLists.add("呵呵");
+			speakLists.add("新的版本即将上线，敬请期待");
 			
 			rsMap.put("status", GlobalConstants.CT_OK);
 			rsMap.put("point", user.getRemainCredit());
 			rsMap.put("refreshtime", System.currentTimeMillis());
 			rsMap.put("extradata", "10");
 			rsMap.put("data", "20");
-			rsMap.put("pkgname", "998元\n SB套餐");
+			rsMap.put("pkgname", "198元\n B套餐");
 			rsMap.put("banners", urlLists);
 			rsMap.put("speakers", speakLists);
 			if(taskUserRelBS.checkDayTask(user.getUserId(), GlobalConstants.CT_TASK_DAY_SIGN)){
@@ -129,7 +129,7 @@ public class UAController extends BaseController {
 		Map<String, Object> extras = Maps.newHashMap();
 		extras.put("n_content", "");
 		extras.put("n_extras", "xxxxxxx");
-		MessageResult msgResult=jpushClient.sendNotification("B瑞你在加班？", nparams, extras);
+		MessageResult msgResult=jpushClient.sendNotification("", nparams, extras);
 		if (msgResult.isResultOK()) {
 		   System.out.println("msgResult - " + msgResult);
 		   System.out.println("messageId - " + msgResult.getMessageId());

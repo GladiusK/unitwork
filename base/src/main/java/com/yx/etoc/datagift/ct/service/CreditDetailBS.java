@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yx.baseframe.service.BaseBS;
+import com.yx.baseframe.util.DateTools;
 import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
+import com.yx.etoc.datagift.cd.entity.DgCdInfoHPK;
 
 /** 
  * @ClassName: CreditDetailBS 
@@ -29,5 +31,17 @@ import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
 @Service
 @Transactional(readOnly=true)
 public class CreditDetailBS extends BaseBS<DgCdInfoH> {
-
+	@Transactional(readOnly=false)
+	public void saveCustEntity(String userid,String creditType,String moduleId,int creditCont,String creditRel){
+		DgCdInfoH cdInfo = new DgCdInfoH();
+		DgCdInfoHPK id = new DgCdInfoHPK();
+		id.setUserId(userid);
+		id.setUpdateTime(DateTools.getCurrentStringDateTime());
+		cdInfo.setId(id);
+		cdInfo.setCreditRel(creditRel);
+		cdInfo.setCreditType(creditType);
+		cdInfo.setModuleId(moduleId);
+		cdInfo.setCreditCount(creditCont);
+		this.saveEntity(cdInfo);
+	}
 }
