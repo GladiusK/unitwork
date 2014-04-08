@@ -88,7 +88,7 @@ public class UserBS extends BaseBS<DgCtUser>{
 		user = this.calculateGrade(user, createExp, createCredit);
 		user.setRemainCredit(user.getRemainCredit()+createCredit);
 		user.setTotalCredit(user.getTotalCredit()+createCredit);
-		creditDetailBS.saveCustEntity(user, detailType, objId, createExp, creditRel);
+		creditDetailBS.saveCustEntity(user, detailType, objId, createCredit, creditRel);
 		this.updateEntity(user);
 		return user;
 	}
@@ -113,7 +113,7 @@ public class UserBS extends BaseBS<DgCtUser>{
 			int extra = expRel.getCreditExtra()+createCredit;
 			user.setTotalCredit(user.getRemainCredit()+ extra);
 			user.setRemainCredit(user.getRemainCredit()+ extra);
-			creditDetailBS.saveCustEntity(user,GlobalConstants.CT_CD_GRADE_UP,expRel.getGradeId(),expRel.getGradeCount(),GlobalConstants.CT_CD_CREDIT_REL_ADD);
+			creditDetailBS.saveCustEntity(user,GlobalConstants.CT_CD_GRADE_UP,expRel.getGradeId(),expRel.getCreditExtra(),GlobalConstants.CT_CD_CREDIT_REL_ADD);
 		}else{
 			user.setExpe(createExp+user.getExpe());
 		}

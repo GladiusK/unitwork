@@ -60,7 +60,7 @@ public class AppManageBS extends BaseBS<DgAppInfo>{
 			appDTO.setPreviewUrl(getImgUrl(app.getImgs()));
 			appDTO.setSteps(StringUtils.split(app.getStep()));
 			appDTO.setIntro(app.getAppRemark());
-			appDTO.setDownnum(Math.random()*10000+"");
+			appDTO.setDownnum(app.getUsers().size()+"");
 			appDTO.setType(app.getActType());
 			appDTO.setPoint(app.getCreditCount()+"");
 			appDTO.setExp(app.getExpeCount()+"");
