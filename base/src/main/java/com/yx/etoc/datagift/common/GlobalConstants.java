@@ -40,7 +40,7 @@ public class GlobalConstants {
 	public static final String CT_USR_DAYSIGN_AGAIN = "138117";
 	//应用不存在
 	public static final String CT_APP_NOEXIST = "138118";
-	//改用户已经进行过下载
+	//该用户已经进行过下载
 	public static final String CT_APP_USER_ALREADY_DOWN = "138119";
 	
 	

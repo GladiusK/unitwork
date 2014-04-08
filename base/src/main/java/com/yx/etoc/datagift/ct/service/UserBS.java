@@ -55,23 +55,44 @@ public class UserBS extends BaseBS<DgCtUser>{
 	}
 	/** 
 	* @Title: calculate 
-	* @Description: TODO(经验增加的时候，等级可能发生变化) 
+	* @Description: TODO(每日签到任务) 
 	* @param @param user
 	* @param @param createExp
 	* @param @param taskRel
 	* @param @param detailType
 	* @param @return    设定文件 
 	* @return DgCtUser    返回类型 
-	* @throws  目前该算法，只能进行等级升级的一次奖励，如果经验的增加，使得级别增加幅度大于1级，那么积分的奖励也只奖励当前级别的积分，不叠加
+	* @throws  
 	*/
 	@Transactional(readOnly = false)
-	public DgCtUser calculate(DgCtUser user,int createExp,int createCredit,DgTaskUserRel taskRel,String detailType){
-			this.calculateGrade(user, createExp, createCredit);
-			taskUserRelBS.updateEntity(taskRel);
-			creditDetailBS.saveCustEntity(user.getUserId(), detailType, taskRel.getId().getTaskId(), createExp, GlobalConstants.CT_CD_CREDIT_REL_ADD);
-			return user;
+	public DgCtUser daySignTask(DgCtUser user,int createExp,int createCredit,DgTaskUserRel taskRel,String detailType){
+		user = this.calculateAndRecord(user, createExp, createCredit, taskRel.getId().getTaskId(), detailType,GlobalConstants.CT_CD_CREDIT_REL_ADD);
+		taskUserRelBS.updateEntity(taskRel);
+		return user;
 		
 	}
+	/** 
+	* @Title: calculateAndRecord 
+	* @Description: TODO(将记录经验和积分的增加带来的级别提升、级别奖励、以及积分流水记录) 
+	* @param @param user
+	* @param @param createExp
+	* @param @param createCredit
+	* @param @param objId
+	* @param @param detailType
+	* @param @return    设定文件 
+	* @return DgCtUser    返回类型 
+	* @throws 目前该算法，只能进行等级升级的一次奖励，如果经验的增加，使得级别增加幅度大于1级，那么积分的奖励也只奖励当前级别的积分，不叠加
+	*/
+	@Transactional(readOnly = false)
+	public DgCtUser calculateAndRecord(DgCtUser user,int createExp,int createCredit,String objId,String detailType,String creditRel ){
+		user = this.calculateGrade(user, createExp, createCredit);
+		user.setRemainCredit(user.getRemainCredit()+createCredit);
+		user.setTotalCredit(user.getTotalCredit()+createCredit);
+		creditDetailBS.saveCustEntity(user, detailType, objId, createExp, creditRel);
+		this.updateEntity(user);
+		return user;
+	}
+	
 	/** 
 	* @Title: calculateGrade 
 	* @Description: TODO(经验增加后用户的积分变换情况) 
@@ -82,7 +103,6 @@ public class UserBS extends BaseBS<DgCtUser>{
 	* @return DgCtUser    返回类型 
 	* @throws 
 	*/
-	@Transactional(readOnly = false)
 	public DgCtUser calculateGrade(DgCtUser user, int createExp, int createCredit){
 		int tmpExp = createExp+user.getExpe();
 		String sql = "select obj from DgExpGrdRel obj where obj.expeFloor <= ?0 and ?0<obj.expeTop";
@@ -93,12 +113,10 @@ public class UserBS extends BaseBS<DgCtUser>{
 			int extra = expRel.getCreditExtra()+createCredit;
 			user.setTotalCredit(user.getRemainCredit()+ extra);
 			user.setRemainCredit(user.getRemainCredit()+ extra);
-			creditDetailBS.saveCustEntity(user.getUserId(),GlobalConstants.CT_CD_GRADE_UP,expRel.getGradeId(),expRel.getGradeCount(),GlobalConstants.CT_CD_CREDIT_REL_ADD);
-			
+			creditDetailBS.saveCustEntity(user,GlobalConstants.CT_CD_GRADE_UP,expRel.getGradeId(),expRel.getGradeCount(),GlobalConstants.CT_CD_CREDIT_REL_ADD);
 		}else{
 			user.setExpe(createExp+user.getExpe());
 		}
-		this.updateEntity(user);
 		return user;
 	}
 }

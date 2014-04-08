@@ -22,7 +22,6 @@ import com.yx.etoc.datagift.app.entity.DgAppDownH;
 import com.yx.etoc.datagift.app.entity.DgAppInfo;
 import com.yx.etoc.datagift.common.GlobalConstants;
 import com.yx.etoc.datagift.ct.entity.DgCtUser;
-import com.yx.etoc.datagift.ct.service.CreditDetailBS;
 import com.yx.etoc.datagift.ct.service.UserBS;
 
 /** 
@@ -37,13 +36,11 @@ import com.yx.etoc.datagift.ct.service.UserBS;
 public class AppDownHBS extends BaseBS<DgAppDownH> {
 	@Autowired
 	private UserBS userBS;
-	@Autowired
-	private CreditDetailBS creditDetailBS;
 	@Transactional(readOnly = false)
 	public void afterDown(DgAppDownH downH,DgCtUser user, DgAppInfo appInfo){
+		user = userBS.calculateAndRecord(user, appInfo.getExpeCount(), appInfo.getCreditCount(), appInfo.getAppId(), appInfo.getActType()=="0"?GlobalConstants.CT_CD_NOFLOW_DOWNLOAD:GlobalConstants.CT_CD_FLOW_DOWNLOAD,GlobalConstants.CT_CD_CREDIT_REL_ADD);
+		userBS.updateEntity(user);
 		saveEntity(downH);
-		userBS.calculateGrade(user, appInfo.getExpeCount(), appInfo.getExpeCount());
-		creditDetailBS.saveCustEntity(user.getUserId(), appInfo.getActType()=="0"?GlobalConstants.CT_CD_NOFLOW_DOWNLOAD:GlobalConstants.CT_CD_FLOW_DOWNLOAD, appInfo.getAppId(), appInfo.getCreditCount(), GlobalConstants.CT_CD_CREDIT_REL_ADD);
 	}
 
 }

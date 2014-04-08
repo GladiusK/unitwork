@@ -20,6 +20,7 @@ import com.yx.baseframe.service.BaseBS;
 import com.yx.baseframe.util.DateTools;
 import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
 import com.yx.etoc.datagift.cd.entity.DgCdInfoHPK;
+import com.yx.etoc.datagift.ct.entity.DgCtUser;
 
 /** 
  * @ClassName: CreditDetailBS 
@@ -32,10 +33,10 @@ import com.yx.etoc.datagift.cd.entity.DgCdInfoHPK;
 @Transactional(readOnly=true)
 public class CreditDetailBS extends BaseBS<DgCdInfoH> {
 	@Transactional(readOnly=false)
-	public void saveCustEntity(String userid,String creditType,String moduleId,int creditCont,String creditRel){
+	public void saveCustEntity(DgCtUser user,String creditType,String moduleId,int creditCont,String creditRel){
 		DgCdInfoH cdInfo = new DgCdInfoH();
 		DgCdInfoHPK id = new DgCdInfoHPK();
-		id.setUserId(userid);
+		id.setUserId(user.getUserId());
 		id.setUpdateTime(DateTools.getCurrentStringDateTime());
 		cdInfo.setId(id);
 		cdInfo.setCreditRel(creditRel);
