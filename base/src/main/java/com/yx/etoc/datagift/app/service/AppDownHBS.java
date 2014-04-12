@@ -38,7 +38,8 @@ public class AppDownHBS extends BaseBS<DgAppDownH> {
 	private UserBS userBS;
 	@Transactional(readOnly = false)
 	public void afterDown(DgAppDownH downH,DgCtUser user, DgAppInfo appInfo){
-		user = userBS.calculateAndRecord(user, appInfo.getExpeCount(), appInfo.getCreditCount(), appInfo.getAppId(), appInfo.getActType()=="0"?GlobalConstants.CT_CD_NOFLOW_DOWNLOAD:GlobalConstants.CT_CD_FLOW_DOWNLOAD,GlobalConstants.CT_CD_CREDIT_REL_ADD);
+		StringBuffer remark = new StringBuffer("下载").append("\"").append(appInfo.getAppName()).append("\"").append(" , ").append("收获").append(appInfo.getCreditCount()).append("积分 , ").append(appInfo.getExpeCount()).append("经验");
+		user = userBS.calculateAndRecord(user, appInfo.getExpeCount(), appInfo.getCreditCount(), appInfo.getAppId(), appInfo.getActType()=="0"?GlobalConstants.CT_CD_NOFLOW_DOWNLOAD:GlobalConstants.CT_CD_FLOW_DOWNLOAD,GlobalConstants.CT_CD_CREDIT_REL_ADD,remark.toString());
 		userBS.updateEntity(user);
 		saveEntity(downH);
 	}

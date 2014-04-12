@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -23,6 +24,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
 import com.yx.etoc.datagift.ct.entity.DgCtUser;
 
 /**
@@ -91,6 +93,9 @@ public class DgAppInfo implements Serializable {
 	
 	@ManyToMany(mappedBy="apps")
 	private Set<DgCtUser> users = Sets.newHashSet();
+	
+	@OneToMany(mappedBy="appinfo",cascade=CascadeType.REFRESH,fetch=FetchType.LAZY)
+	private Set<DgCdInfoH> cdDetails = Sets.newTreeSet();
 	
 	public DgAppInfo() {
 	}
@@ -247,6 +252,14 @@ public class DgAppInfo implements Serializable {
 
 	public void setUsers(Set<DgCtUser> users) {
 		this.users = users;
+	}
+
+	public Set<DgCdInfoH> getCdDetails() {
+		return cdDetails;
+	}
+
+	public void setCdDetails(Set<DgCdInfoH> cdDetails) {
+		this.cdDetails = cdDetails;
 	}
 
 	@Override

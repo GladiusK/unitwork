@@ -23,7 +23,6 @@ public class DgAppImg implements Serializable {
 
 	@JoinColumn(name="APP_ID")
 	@ManyToOne(cascade={CascadeType.ALL}, optional=false, fetch=FetchType.LAZY)
-	@JsonIgnore
 	private DgAppInfo appinfo;
 
 	private String img;

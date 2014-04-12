@@ -5,6 +5,7 @@ import java.util.Map;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,8 +23,11 @@ import cn.jpush.api.push.ReceiverTypeEnum;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.yx.baseframe.util.BaseController;
+import com.yx.baseframe.util.DateTools;
 import com.yx.etoc.datagift.common.GlobalConstants;
+import com.yx.etoc.datagift.ct.entity.DgCtInfo;
 import com.yx.etoc.datagift.ct.entity.DgCtUser;
+import com.yx.etoc.datagift.ct.service.ClientBS;
 import com.yx.etoc.datagift.ct.service.UserBS;
 import com.yx.etoc.datagift.ct.web.vo.DgCtInfoVO;
 import com.yx.etoc.datagift.task.service.TaskUserRelBS;
@@ -35,6 +39,8 @@ public class UAController extends BaseController {
 	private UserBS userBS;
 	@Autowired
 	private TaskUserRelBS taskUserRelBS;
+	@Autowired
+	private ClientBS clientBS;
 	/**
 	 * 客户端UA验证  已注册用户 -比对登陆环境信息，如果不相同写信息变更表
 	 * 			        未注册用户-直接返回客户端版本信息
@@ -45,23 +51,31 @@ public class UAController extends BaseController {
 	@RequestMapping(value="/init",method=RequestMethod.POST)
 	public Map<String,String> init(@RequestBody DgCtUser usr){
 		Map<String,String> rsMap = Maps.newHashMap();
-		DgCtInfoVO ct = new DgCtInfoVO();
-		ct.setOutVs("1.2");
-		ct.setUpgrageType("2");
-		ct.setFileSize("10MB");
-		ct.setIp(this.getRequest().getRemoteAddr());
-		ct.setServertime(System.currentTimeMillis()+"");
-		ct.setFilePath("http://channel.looklook.cn:8091/download/api/download.do?productcode=3&systemcode=101");
-		ct.setVsRemark("优化了程序的速度");
-		rsMap.put("outVs", ct.getOutVs());
-		rsMap.put("ip", ct.getIp());
-		rsMap.put("upgrageType", ct.getUpgrageType());
-		rsMap.put("fileSize", ct.getFileSize());
-		rsMap.put("filePath", ct.getFilePath());
-		rsMap.put("vsRemark", ct.getVsRemark());
-		rsMap.put("servertime", ct.getServertime());
 		if(usr == null){
 			rsMap.put("status",GlobalConstants.CT_PARAM_NULL);
+			return rsMap;
+		}
+		List<DgCtInfo> cts = clientBS.getAllEntityList();
+		if(CollectionUtils.isNotEmpty(cts)){
+			DgCtInfo ct = cts.get(0);
+			rsMap.put("outVs", ct.getOutVs());
+			rsMap.put("ip", this.getRequest().getRemoteAddr());
+			rsMap.put("fileSize", ct.getFileSize());
+			rsMap.put("filePath", ct.getFilePath());
+			rsMap.put("vsRemark", ct.getVsRemark());
+			rsMap.put("servertime",System.currentTimeMillis()+"");
+			int serverVS = Integer.valueOf(ct.getCtVs());
+			int clientVS = Integer.valueOf(usr.getCtVs());
+			if((serverVS - clientVS) > 2){
+				//大于2个版本强制升级
+				rsMap.put("upgrageType", "1");
+			}else if((serverVS - clientVS) == 1){
+				rsMap.put("upgrageType", "2");
+			}else if(serverVS == clientVS){
+				rsMap.put("upgrageType", "0");
+			}
+		}else{
+			rsMap.put("status",GlobalConstants.CT_DATA_NOMACHE);
 			return rsMap;
 		}
 		if("".equals(usr.getUserId())){

@@ -1,13 +1,22 @@
 package com.yx.etoc.datagift.ct.entity;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.google.common.collect.Sets;
 import com.yx.etoc.datagift.app.entity.DgAppInfo;
+import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
 
 
 /**
@@ -74,6 +83,10 @@ public class DgCtUser implements Serializable {
 	@ManyToMany
 	@JoinTable(name ="dg_app_down_h", joinColumns=@JoinColumn(name ="USER_ID"),inverseJoinColumns=@JoinColumn(name ="APP_ID"))
 	private Set<DgAppInfo> apps = Sets.newHashSet();
+	
+	@OneToMany(mappedBy="ctuser",cascade=CascadeType.REFRESH,fetch=FetchType.LAZY)
+	private Set<DgCdInfoH> creditDetail = Sets.newTreeSet();
+	
 
     public DgCtUser() {
     }
@@ -277,6 +290,14 @@ public class DgCtUser implements Serializable {
 		} else if (!userId.equals(other.userId))
 			return false;
 		return true;
+	}
+
+	public Set<DgCdInfoH> getCreditDetail() {
+		return creditDetail;
+	}
+
+	public void setCreditDetail(Set<DgCdInfoH> creditDetail) {
+		this.creditDetail = creditDetail;
 	}
 	
 }

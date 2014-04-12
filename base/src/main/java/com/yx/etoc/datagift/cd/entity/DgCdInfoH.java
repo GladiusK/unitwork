@@ -3,6 +3,12 @@ package com.yx.etoc.datagift.cd.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.yx.baseframe.util.DateTools;
+import com.yx.etoc.datagift.app.entity.DgAppInfo;
+import com.yx.etoc.datagift.ct.entity.DgCtUser;
+import com.yx.etoc.datagift.ct.entity.DgExpGrdRel;
+import com.yx.etoc.datagift.task.entity.DgTaskInfo;
+
 
 /**
  * The persistent class for the dg_cd_info_h database table.
@@ -10,11 +16,11 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="dg_cd_info_h")
-public class DgCdInfoH implements Serializable {
+public class DgCdInfoH implements Serializable, Comparable {
 	private static final long serialVersionUID = 1L;
-
-	@EmbeddedId
-	private DgCdInfoHPK id;
+	@Id
+	@Column(name="CREDIT_ID")
+	private String creditId;
 
 	@Column(name="CREDIT_COUNT")
 	private int creditCount;
@@ -30,17 +36,39 @@ public class DgCdInfoH implements Serializable {
 
 	private String remark;
 
+	@Column(name="UPDATE_TIME")
+	private String updateTime;
+
+	@Column(name="EXPE_COUNT")
+	private int expeCount;
+	
+	@JoinColumn(name="MODULE_ID", nullable = false, insertable = false, updatable = false)
+	@ManyToOne(cascade={CascadeType.REFRESH}, optional=false, fetch=FetchType.LAZY)
+	private DgAppInfo appinfo;
+
+	@JoinColumn(name="MODULE_ID", nullable = false, insertable = false, updatable = false)
+	@ManyToOne(cascade={CascadeType.REFRESH},optional=false, fetch=FetchType.LAZY)
+	private DgExpGrdRel expGrdRel;
+	
+	@JoinColumn(name="MODULE_ID", nullable = false, insertable = false, updatable = false)
+	@ManyToOne(cascade={CascadeType.REFRESH},optional=false, fetch=FetchType.LAZY)
+	private DgTaskInfo dgTaskInfo;
+	
+	@JoinColumn(name="USER_ID")
+	@ManyToOne(cascade={CascadeType.REFRESH},optional=false, fetch=FetchType.LAZY)
+	private DgCtUser ctuser;
+	
     public DgCdInfoH() {
     }
 
-	public DgCdInfoHPK getId() {
-		return this.id;
+	public String getCreditId() {
+		return this.creditId;
 	}
 
-	public void setId(DgCdInfoHPK id) {
-		this.id = id;
+	public void setCreditId(String creditId) {
+		this.creditId = creditId;
 	}
-	
+
 	public int getCreditCount() {
 		return this.creditCount;
 	}
@@ -81,4 +109,58 @@ public class DgCdInfoH implements Serializable {
 		this.remark = remark;
 	}
 
+	public String getUpdateTime() {
+		return this.updateTime;
+	}
+
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
+	}
+	
+	public DgAppInfo getAppinfo() {
+		return appinfo;
+	}
+
+	public void setAppinfo(DgAppInfo appinfo) {
+		this.appinfo = appinfo;
+	}
+
+	public DgExpGrdRel getExpGrdRel() {
+		return expGrdRel;
+	}
+
+	public void setExpGrdRel(DgExpGrdRel expGrdRel) {
+		this.expGrdRel = expGrdRel;
+	}
+
+	public int compareTo(Object o) {
+		DgCdInfoH obj = (DgCdInfoH)o;
+		int rs = DateTools.compareStringDate(this.updateTime, obj.updateTime);
+		return rs;
+	}
+
+	public int getExpeCount() {
+		return expeCount;
+	}
+
+	public void setExpeCount(int expeCount) {
+		this.expeCount = expeCount;
+	}
+
+	public DgCtUser getCtuser() {
+		return ctuser;
+	}
+
+	public void setCtuser(DgCtUser ctuser) {
+		this.ctuser = ctuser;
+	}
+
+	public DgTaskInfo getDgTaskInfo() {
+		return dgTaskInfo;
+	}
+
+	public void setDgTaskInfo(DgTaskInfo dgTaskInfo) {
+		this.dgTaskInfo = dgTaskInfo;
+	}
+	
 }

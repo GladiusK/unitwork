@@ -1,8 +1,12 @@
 package com.yx.etoc.datagift.task.entity;
 
 import java.io.Serializable;
+import java.util.Set;
+
 import javax.persistence.*;
 
+import com.google.common.collect.Sets;
+import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
 import com.yx.etoc.datagift.ct.entity.DgExpGrdRel;
 
 
@@ -44,6 +48,9 @@ public class DgTaskInfo implements Serializable {
 
 	@Column(name="TASK_TYPE")
 	private String taskType;
+	
+	@OneToMany(mappedBy="dgTaskInfo",cascade={CascadeType.REFRESH},fetch=FetchType.LAZY)
+	private Set<DgCdInfoH> dgCdDetail = Sets.newTreeSet();
 
     public DgTaskInfo() {
     }
@@ -126,6 +133,14 @@ public class DgTaskInfo implements Serializable {
 
 	public void setTaskType(String taskType) {
 		this.taskType = taskType;
+	}
+
+	public Set<DgCdInfoH> getDgCdDetail() {
+		return dgCdDetail;
+	}
+
+	public void setDgCdDetail(Set<DgCdInfoH> dgCdDetail) {
+		this.dgCdDetail = dgCdDetail;
 	}
 
 }

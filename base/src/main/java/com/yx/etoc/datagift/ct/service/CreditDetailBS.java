@@ -18,8 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.yx.baseframe.service.BaseBS;
 import com.yx.baseframe.util.DateTools;
+import com.yx.baseframe.util.RandomUtils;
 import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
-import com.yx.etoc.datagift.cd.entity.DgCdInfoHPK;
 import com.yx.etoc.datagift.ct.entity.DgCtUser;
 
 /** 
@@ -33,16 +33,17 @@ import com.yx.etoc.datagift.ct.entity.DgCtUser;
 @Transactional(readOnly=true)
 public class CreditDetailBS extends BaseBS<DgCdInfoH> {
 	@Transactional(readOnly=false)
-	public void saveCustEntity(DgCtUser user,String creditType,String moduleId,int creditCont,String creditRel){
+	public void saveCustEntity(DgCtUser user,String creditType,String moduleId,int creditCont,String creditRel,int expeCount,String remark){
 		DgCdInfoH cdInfo = new DgCdInfoH();
-		DgCdInfoHPK id = new DgCdInfoHPK();
-		id.setUserId(user.getUserId());
-		id.setUpdateTime(DateTools.getCurrentStringDateTime());
-		cdInfo.setId(id);
+		cdInfo.setCtuser(user);
+		cdInfo.setUpdateTime(DateTools.getCurrentStringDateTime());
+		cdInfo.setCreditId(RandomUtils.uuid2());
 		cdInfo.setCreditRel(creditRel);
 		cdInfo.setCreditType(creditType);
 		cdInfo.setModuleId(moduleId);
 		cdInfo.setCreditCount(creditCont);
+		cdInfo.setExpeCount(expeCount);
+		cdInfo.setRemark(remark);
 		this.saveEntity(cdInfo);
 	}
 }

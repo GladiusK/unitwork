@@ -212,6 +212,18 @@ public static Date convertToDate(String dateString) {
             }
 }
 
+public static int compareStringDate(String dateString1,String dateString2){
+	try {
+		return DATE_TIME_FORMAT.parse(dateString1).compareTo(DATE_TIME_FORMAT.parse(dateString2));
+	} catch (ParseException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return -2;
+	}
+	
+	
+}
+
 /**
  * 检查字符串是否为日期格式yyyy-MM-dd
  * @param dateString

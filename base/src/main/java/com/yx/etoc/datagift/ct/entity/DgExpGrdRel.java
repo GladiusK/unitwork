@@ -1,7 +1,12 @@
 package com.yx.etoc.datagift.ct.entity;
 
 import java.io.Serializable;
+import java.util.Set;
+
 import javax.persistence.*;
+
+import com.google.common.collect.Sets;
+import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
 
 
 /**
@@ -34,6 +39,9 @@ public class DgExpGrdRel implements Serializable {
 
 	@Column(name="GRADE_REMARK")
 	private String gradeRemark;
+	
+	@OneToMany(mappedBy="expGrdRel",cascade=CascadeType.REFRESH,fetch=FetchType.LAZY)
+	private Set<DgCdInfoH> cdDetails = Sets.newTreeSet();
 
     public DgExpGrdRel() {
     }
@@ -92,6 +100,14 @@ public class DgExpGrdRel implements Serializable {
 
 	public void setGradeRemark(String gradeRemark) {
 		this.gradeRemark = gradeRemark;
+	}
+
+	public Set<DgCdInfoH> getCdDetails() {
+		return cdDetails;
+	}
+
+	public void setCdDetails(Set<DgCdInfoH> cdDetails) {
+		this.cdDetails = cdDetails;
 	}
 
 }

@@ -18,12 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yx.baseframe.service.BaseBS;
-import com.yx.baseframe.util.DateTools;
-import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
-import com.yx.etoc.datagift.cd.entity.DgCdInfoHPK;
 import com.yx.etoc.datagift.common.GlobalConstants;
 import com.yx.etoc.datagift.ct.entity.DgCtUser;
 import com.yx.etoc.datagift.ct.entity.DgExpGrdRel;
+import com.yx.etoc.datagift.task.entity.DgTaskInfo;
 import com.yx.etoc.datagift.task.entity.DgTaskUserRel;
 import com.yx.etoc.datagift.task.service.TaskUserRelBS;
 
@@ -65,8 +63,10 @@ public class UserBS extends BaseBS<DgCtUser>{
 	* @throws  
 	*/
 	@Transactional(readOnly = false)
-	public DgCtUser daySignTask(DgCtUser user,int createExp,int createCredit,DgTaskUserRel taskRel,String detailType){
-		user = this.calculateAndRecord(user, createExp, createCredit, taskRel.getId().getTaskId(), detailType,GlobalConstants.CT_CD_CREDIT_REL_ADD);
+	public DgCtUser daySignTask(DgCtUser user,DgTaskInfo task,DgTaskUserRel taskRel,String detailType){
+		StringBuffer tmp = new StringBuffer("完成");
+		tmp.append(task.getTaskName()).append(" , 收获").append(task.getCreditCount()).append("积分 , ").append(task.getExpeCount()).append("经验");
+		user = this.calculateAndRecord(user, task.getExpeCount(), task.getCreditCount(), taskRel.getId().getTaskId(), detailType,GlobalConstants.CT_CD_CREDIT_REL_ADD,tmp.toString());
 		taskUserRelBS.updateEntity(taskRel);
 		return user;
 		
@@ -84,11 +84,11 @@ public class UserBS extends BaseBS<DgCtUser>{
 	* @throws 目前该算法，只能进行等级升级的一次奖励，如果经验的增加，使得级别增加幅度大于1级，那么积分的奖励也只奖励当前级别的积分，不叠加
 	*/
 	@Transactional(readOnly = false)
-	public DgCtUser calculateAndRecord(DgCtUser user,int createExp,int createCredit,String objId,String detailType,String creditRel ){
+	public DgCtUser calculateAndRecord(DgCtUser user,int createExp,int createCredit,String objId,String detailType,String creditRel,String remark ){
 		user = this.calculateGrade(user, createExp, createCredit);
 		user.setRemainCredit(user.getRemainCredit()+createCredit);
 		user.setTotalCredit(user.getTotalCredit()+createCredit);
-		creditDetailBS.saveCustEntity(user, detailType, objId, createCredit, creditRel);
+		creditDetailBS.saveCustEntity(user, detailType, objId, createCredit, creditRel,createExp,remark);
 		this.updateEntity(user);
 		return user;
 	}
@@ -108,12 +108,14 @@ public class UserBS extends BaseBS<DgCtUser>{
 		String sql = "select obj from DgExpGrdRel obj where obj.expeFloor <= ?0 and ?0<obj.expeTop";
 		DgExpGrdRel expRel = (DgExpGrdRel) this.baseDAO.createQueryWithIndexParam(sql, tmpExp).getSingleResult();
 		if(user.getGrade() != expRel.getGradeCount()){
+			StringBuffer tmp = new StringBuffer("等级由");
+			tmp.append(user.getGrade()).append(" 提升为 ").append(expRel.getGradeCount()).append(" , 收获积分").append(expRel.getCreditExtra());
 			user.setExpe(tmpExp);
 			user.setGrade(expRel.getGradeCount());
 			int extra = expRel.getCreditExtra()+createCredit;
 			user.setTotalCredit(user.getRemainCredit()+ extra);
 			user.setRemainCredit(user.getRemainCredit()+ extra);
-			creditDetailBS.saveCustEntity(user,GlobalConstants.CT_CD_GRADE_UP,expRel.getGradeId(),expRel.getCreditExtra(),GlobalConstants.CT_CD_CREDIT_REL_ADD);
+			creditDetailBS.saveCustEntity(user,GlobalConstants.CT_CD_GRADE_UP,expRel.getGradeId(),expRel.getCreditExtra(),GlobalConstants.CT_CD_CREDIT_REL_ADD,createExp,tmp.toString());
 		}else{
 			user.setExpe(createExp+user.getExpe());
 		}

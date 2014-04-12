@@ -2,6 +2,7 @@ package com.yx.etoc.datagift.ct.web;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.json.JSONObject;
 
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.yx.baseframe.util.BaseController;
 import com.yx.baseframe.util.EhcacheUtils;
 import com.yx.baseframe.util.RandomUtils;
+import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
 import com.yx.etoc.datagift.common.GlobalConstants;
 import com.yx.etoc.datagift.ct.entity.DgCtUser;
 import com.yx.etoc.datagift.ct.service.UserBS;
@@ -220,8 +223,8 @@ public class UserController extends BaseController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/daySign",method=RequestMethod.POST)
-	public Map<String,Object> daySign(@RequestBody String rquestParam){
+	@RequestMapping(value="/creditDetail",method=RequestMethod.POST)
+	public Map<String,Object> listDetail(@RequestBody String rquestParam){
 		Map<String, Object> rsMap = Maps.newHashMap();
 		JSONObject obj = JSONObject.fromObject(rquestParam);
 		if (obj.isEmpty()) {
@@ -230,13 +233,16 @@ public class UserController extends BaseController {
 		}
 		String userid = obj.getString("userid");
 		DgCtUser user = this.userBS.getEntityById(DgCtUser.class, userid);
+		Set<String> tmp = Sets.newTreeSet();
 		//判断是否OK 如果OK 返回
 		if(user != null){
-			//增加经验  增加积分
-			rsMap.put("status", GlobalConstants.CT_OK);
-			rsMap.put("point", user.getRemainCredit());
-			rsMap.put("level", user.getGrade());
-			rsMap.put("exp", user.getExpe());
+			Set<DgCdInfoH> details = user.getCreditDetail();
+			for(DgCdInfoH detail : details){
+				System.out.println(detail.getRemark());
+				System.out.println(detail.getUpdateTime());
+				tmp.add(detail.getRemark());
+			}
+			rsMap.put("point", tmp);
 			return rsMap;
 		}else{
 			rsMap.put("status", GlobalConstants.CT_NO_USR);
