@@ -1,10 +1,13 @@
 package com.yx.etoc.datagift.ct.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -12,9 +15,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.yx.baseframe.util.DateTools;
 import com.yx.etoc.datagift.app.entity.DgAppInfo;
 import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
 
@@ -25,7 +31,7 @@ import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
  */
 @Entity
 @Table(name="dg_ct_user")
-public class DgCtUser implements Serializable {
+public class DgCtUser implements Serializable,Comparable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -82,10 +88,11 @@ public class DgCtUser implements Serializable {
 	
 	@ManyToMany
 	@JoinTable(name ="dg_app_down_h", joinColumns=@JoinColumn(name ="USER_ID"),inverseJoinColumns=@JoinColumn(name ="APP_ID"))
-	private Set<DgAppInfo> apps = Sets.newHashSet();
+	private Set<DgAppInfo> apps = Sets.newTreeSet();
 	
 	@OneToMany(mappedBy="ctuser",cascade=CascadeType.REFRESH,fetch=FetchType.LAZY)
-	private Set<DgCdInfoH> creditDetail = Sets.newTreeSet();
+	@OrderBy("updateTime DESC")
+	private List<DgCdInfoH> creditDetail = Lists.newArrayList();
 	
 
     public DgCtUser() {
@@ -259,14 +266,6 @@ public class DgCtUser implements Serializable {
 		this.totalCredit = totalCredit;
 	}
 
-	public Set<DgAppInfo> getApps() {
-		return apps;
-	}
-
-	public void setApps(Set<DgAppInfo> apps) {
-		this.apps = apps;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -292,12 +291,31 @@ public class DgCtUser implements Serializable {
 		return true;
 	}
 
-	public Set<DgCdInfoH> getCreditDetail() {
+
+	public Set<DgAppInfo> getApps() {
+		return apps;
+	}
+
+	public void setApps(Set<DgAppInfo> apps) {
+		this.apps = apps;
+	}
+
+	public List<DgCdInfoH> getCreditDetail() {
 		return creditDetail;
 	}
 
-	public void setCreditDetail(Set<DgCdInfoH> creditDetail) {
+	public void setCreditDetail(List<DgCdInfoH> creditDetail) {
 		this.creditDetail = creditDetail;
 	}
-	
+
+	public int compareTo(Object o) {
+		DgCtUser obj = (DgCtUser)o;
+		if(this.getRemainCredit() > obj.getRemainCredit()){
+			return 1;
+		}else if (this.getRemainCredit() == obj.getRemainCredit()){
+			return 0;
+		}else{
+			return -1;
+		}
+	}
 }

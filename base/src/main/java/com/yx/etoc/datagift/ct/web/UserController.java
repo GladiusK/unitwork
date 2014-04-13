@@ -222,33 +222,6 @@ public class UserController extends BaseController {
 		}
 	}
 	
-	@ResponseBody
-	@RequestMapping(value="/creditDetail",method=RequestMethod.POST)
-	public Map<String,Object> listDetail(@RequestBody String rquestParam){
-		Map<String, Object> rsMap = Maps.newHashMap();
-		JSONObject obj = JSONObject.fromObject(rquestParam);
-		if (obj.isEmpty()) {
-			rsMap.put("status", GlobalConstants.CT_PARAM_NULL);
-			return rsMap;
-		}
-		String userid = obj.getString("userid");
-		DgCtUser user = this.userBS.getEntityById(DgCtUser.class, userid);
-		Set<String> tmp = Sets.newTreeSet();
-		//判断是否OK 如果OK 返回
-		if(user != null){
-			Set<DgCdInfoH> details = user.getCreditDetail();
-			for(DgCdInfoH detail : details){
-				System.out.println(detail.getRemark());
-				System.out.println(detail.getUpdateTime());
-				tmp.add(detail.getRemark());
-			}
-			rsMap.put("point", tmp);
-			return rsMap;
-		}else{
-			rsMap.put("status", GlobalConstants.CT_NO_USR);
-			return rsMap;
-		}
-	}
 	
 	@ExceptionHandler({MyException.class})
 	@ResponseBody

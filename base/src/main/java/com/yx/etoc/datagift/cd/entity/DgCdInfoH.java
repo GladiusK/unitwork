@@ -135,7 +135,8 @@ public class DgCdInfoH implements Serializable, Comparable {
 
 	public int compareTo(Object o) {
 		DgCdInfoH obj = (DgCdInfoH)o;
-		int rs = DateTools.compareStringDate(this.updateTime, obj.updateTime);
+	//	int rs = DateTools.compareStringDate(this.updateTime, obj.updateTime); 升序
+	    int rs = DateTools.compareStringDate(obj.updateTime, this.updateTime);
 		return rs;
 	}
 

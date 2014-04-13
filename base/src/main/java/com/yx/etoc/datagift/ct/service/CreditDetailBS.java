@@ -13,13 +13,19 @@
 
 package com.yx.etoc.datagift.ct.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Lists;
+import com.yx.baseframe.dao.SearchResult;
 import com.yx.baseframe.service.BaseBS;
 import com.yx.baseframe.util.DateTools;
+import com.yx.baseframe.util.Pager;
 import com.yx.baseframe.util.RandomUtils;
 import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
+import com.yx.etoc.datagift.cd.web.dto.CreditDetailStructure;
 import com.yx.etoc.datagift.ct.entity.DgCtUser;
 
 /** 
@@ -45,5 +51,20 @@ public class CreditDetailBS extends BaseBS<DgCdInfoH> {
 		cdInfo.setExpeCount(expeCount);
 		cdInfo.setRemark(remark);
 		this.saveEntity(cdInfo);
+	}
+	
+	public List<CreditDetailStructure> list(Pager pager, String userId){
+		String jql = "select obj from DgCdInfoH obj where obj.ctuser.userId = ?0";
+		SearchResult<DgCdInfoH> sr = this.baseDAO.findPageIndexParam(pager.getPageFirstIndex(), pager.getPagesize(), jql, userId);
+		List<DgCdInfoH> result =  sr.getResult();
+		CreditDetailStructure msg = null;
+		List<CreditDetailStructure> tmp = Lists.newArrayList();
+		for(DgCdInfoH obj : result){
+			msg = new CreditDetailStructure();
+			msg.setDate(obj.getUpdateTime());
+			msg.setDesc(obj.getRemark());
+			tmp.add(msg);
+		}
+		return tmp;
 	}
 }

@@ -2,10 +2,9 @@ package com.yx.etoc.datagift.app.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,17 +12,17 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.yx.baseframe.util.DateTools;
 import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
 import com.yx.etoc.datagift.ct.entity.DgCtUser;
 
@@ -33,7 +32,7 @@ import com.yx.etoc.datagift.ct.entity.DgCtUser;
  */
 @Entity
 @Table(name = "dg_app_info")
-public class DgAppInfo implements Serializable {
+public class DgAppInfo implements Serializable, Comparable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -57,7 +56,6 @@ public class DgAppInfo implements Serializable {
 
 	@OneToOne(cascade = { CascadeType.REFRESH }, optional = false, fetch = FetchType.LAZY, targetEntity = DgAppCategory.class)
 	@JoinColumn(name = "CATEGORY_ID", nullable = false, updatable = false)
-	@JsonIgnore
 	private DgAppCategory category;
 
 	@Column(name = "CREDIT_COUNT")
@@ -92,10 +90,11 @@ public class DgAppInfo implements Serializable {
 	private List<DgAppImg> imgs = Lists.newArrayList();
 	
 	@ManyToMany(mappedBy="apps")
-	private Set<DgCtUser> users = Sets.newHashSet();
+	private Set<DgCtUser> users = Sets.newTreeSet();
 	
 	@OneToMany(mappedBy="appinfo",cascade=CascadeType.REFRESH,fetch=FetchType.LAZY)
-	private Set<DgCdInfoH> cdDetails = Sets.newTreeSet();
+	@OrderBy("updateTime DESC")
+	private List<DgCdInfoH> cdDetails = Lists.newArrayList();
 	
 	public DgAppInfo() {
 	}
@@ -254,11 +253,11 @@ public class DgAppInfo implements Serializable {
 		this.users = users;
 	}
 
-	public Set<DgCdInfoH> getCdDetails() {
+	public List<DgCdInfoH> getCdDetails() {
 		return cdDetails;
 	}
 
-	public void setCdDetails(Set<DgCdInfoH> cdDetails) {
+	public void setCdDetails(List<DgCdInfoH> cdDetails) {
 		this.cdDetails = cdDetails;
 	}
 
@@ -286,5 +285,10 @@ public class DgAppInfo implements Serializable {
 			return false;
 		return true;
 	}
-
+	public int compareTo(Object o) {
+		DgAppInfo obj = (DgAppInfo)o;
+	//	int rs = DateTools.compareStringDate(this.updateTime, obj.updateTime); 升序
+	    int rs = DateTools.compareStringDate(obj.getLastUpdateTime(), this.getLastUpdateTime());
+		return rs;
+	}
 }

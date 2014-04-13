@@ -20,10 +20,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.yx.etoc.datagift.common.GlobalConstants;
+import com.yx.etoc.datagift.ct.service.UserBS;
 
 
 
@@ -42,7 +44,6 @@ import com.yx.etoc.datagift.common.GlobalConstants;
 public abstract class BaseController {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
-
 	/**
 	 * 获得当前工程的url
 	 */
@@ -151,4 +152,5 @@ public abstract class BaseController {
 //				.getRequestAttributes()).getRequest().getContextPath();
 		return System.getProperty("base.root");
 	}
+	
 }

@@ -1,10 +1,13 @@
 package com.yx.etoc.datagift.ct.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.*;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
 
@@ -41,7 +44,8 @@ public class DgExpGrdRel implements Serializable {
 	private String gradeRemark;
 	
 	@OneToMany(mappedBy="expGrdRel",cascade=CascadeType.REFRESH,fetch=FetchType.LAZY)
-	private Set<DgCdInfoH> cdDetails = Sets.newTreeSet();
+	@OrderBy("updateTime DESC")
+	private List<DgCdInfoH> cdDetails = Lists.newArrayList();
 
     public DgExpGrdRel() {
     }
@@ -102,11 +106,11 @@ public class DgExpGrdRel implements Serializable {
 		this.gradeRemark = gradeRemark;
 	}
 
-	public Set<DgCdInfoH> getCdDetails() {
+	public List<DgCdInfoH> getCdDetails() {
 		return cdDetails;
 	}
 
-	public void setCdDetails(Set<DgCdInfoH> cdDetails) {
+	public void setCdDetails(List<DgCdInfoH> cdDetails) {
 		this.cdDetails = cdDetails;
 	}
 

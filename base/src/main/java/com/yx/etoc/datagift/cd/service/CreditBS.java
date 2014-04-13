@@ -30,4 +30,7 @@ import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
 @Service
 @Transactional(readOnly=true)
 public class CreditBS extends BaseBS<DgCdInfoH>{
+	public DgCdInfoH getLatestDetail(String userid){
+		return null;
+	}
 }
