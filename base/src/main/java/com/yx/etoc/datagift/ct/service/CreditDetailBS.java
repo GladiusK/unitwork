@@ -54,7 +54,7 @@ public class CreditDetailBS extends BaseBS<DgCdInfoH> {
 	}
 	
 	public List<CreditDetailStructure> list(Pager pager, String userId){
-		String jql = "select obj from DgCdInfoH obj where obj.ctuser.userId = ?0";
+		String jql = "select obj from DgCdInfoH obj where obj.ctuser.userId = ?0 order by obj.updateTime desc";
 		SearchResult<DgCdInfoH> sr = this.baseDAO.findPageIndexParam(pager.getPageFirstIndex(), pager.getPagesize(), jql, userId);
 		List<DgCdInfoH> result =  sr.getResult();
 		CreditDetailStructure msg = null;

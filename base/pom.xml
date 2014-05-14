@@ -92,7 +92,7 @@
 			<artifactId>asm</artifactId>
 			<version>3.3.1</version>
 		</dependency>
-
+	
 		<!-- spring orm -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -387,7 +387,15 @@
     		  <artifactId>jpush-client</artifactId>
     	<version>2.3.1</version>
 		</dependency>
+		
+		 <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
     </dependencies>
+   
+    
     <build>  
         <plugins>  
             <plugin>  

@@ -23,7 +23,7 @@ public class DgCdInfoH implements Serializable, Comparable {
 	private String creditId;
 
 	@Column(name="CREDIT_COUNT")
-	private int creditCount;
+	private Integer creditCount;
 
 	@Column(name="CREDIT_REL")
 	private String creditRel;
@@ -40,7 +40,7 @@ public class DgCdInfoH implements Serializable, Comparable {
 	private String updateTime;
 
 	@Column(name="EXPE_COUNT")
-	private int expeCount;
+	private Integer expeCount;
 	
 	@JoinColumn(name="MODULE_ID", nullable = false, insertable = false, updatable = false)
 	@ManyToOne(cascade={CascadeType.REFRESH}, optional=false, fetch=FetchType.LAZY)
@@ -69,11 +69,11 @@ public class DgCdInfoH implements Serializable, Comparable {
 		this.creditId = creditId;
 	}
 
-	public int getCreditCount() {
+	public Integer getCreditCount() {
 		return this.creditCount;
 	}
 
-	public void setCreditCount(int creditCount) {
+	public void setCreditCount(Integer creditCount) {
 		this.creditCount = creditCount;
 	}
 
@@ -135,16 +135,16 @@ public class DgCdInfoH implements Serializable, Comparable {
 
 	public int compareTo(Object o) {
 		DgCdInfoH obj = (DgCdInfoH)o;
-	//	int rs = DateTools.compareStringDate(this.updateTime, obj.updateTime); 升序
-	    int rs = DateTools.compareStringDate(obj.updateTime, this.updateTime);
+	//	Integer rs = DateTools.compareStringDate(this.updateTime, obj.updateTime); 升序
+	    Integer rs = DateTools.compareStringDate(obj.updateTime, this.updateTime);
 		return rs;
 	}
 
-	public int getExpeCount() {
+	public Integer getExpeCount() {
 		return expeCount;
 	}
 
-	public void setExpeCount(int expeCount) {
+	public void setExpeCount(Integer expeCount) {
 		this.expeCount = expeCount;
 	}
 

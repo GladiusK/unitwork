@@ -26,19 +26,19 @@ public class DgTaskInfo implements Serializable {
 	private String taskId;
 
 	@Column(name="CREDIT_COUNT")
-	private int creditCount;
+	private Integer creditCount;
 
 	@Column(name="END_TIME")
 	private String endTime;
 
 	@Column(name="EXPE_COUNT")
-	private int expeCount;
+	private Integer expeCount;
 
 	@Column(name="START_TIME")
 	private String startTime;
 
 	@Column(name="TARGET_COUNT")
-	private int targetCount;
+	private Integer targetCount;
 
 	@Column(name="TASK_NAME")
 	private String taskName;
@@ -67,11 +67,11 @@ public class DgTaskInfo implements Serializable {
 		this.taskId = taskId;
 	}
 
-	public int getCreditCount() {
+	public Integer getCreditCount() {
 		return this.creditCount;
 	}
 
-	public void setCreditCount(int creditCount) {
+	public void setCreditCount(Integer creditCount) {
 		this.creditCount = creditCount;
 	}
 
@@ -83,11 +83,11 @@ public class DgTaskInfo implements Serializable {
 		this.endTime = endTime;
 	}
 
-	public int getExpeCount() {
+	public Integer getExpeCount() {
 		return this.expeCount;
 	}
 
-	public void setExpeCount(int expeCount) {
+	public void setExpeCount(Integer expeCount) {
 		this.expeCount = expeCount;
 	}
 
@@ -99,11 +99,11 @@ public class DgTaskInfo implements Serializable {
 		this.startTime = startTime;
 	}
 
-	public int getTargetCount() {
+	public Integer getTargetCount() {
 		return this.targetCount;
 	}
 
-	public void setTargetCount(int targetCount) {
+	public void setTargetCount(Integer targetCount) {
 		this.targetCount = targetCount;
 	}
 

@@ -46,9 +46,9 @@ public class DgCtUser implements Serializable,Comparable{
 	@Column(name="DEVICE_TYPE")
 	private String deviceType;
 
-	private int expe;
+	private Integer expe;
 
-	private int grade;
+	private Integer grade;
 
 	private String imei;
 
@@ -72,7 +72,7 @@ public class DgCtUser implements Serializable,Comparable{
 	private String pass;
 
 	@Column(name="REMAIN_CREDIT")
-	private int remainCredit;
+	private Integer remainCredit;
 
 	private String resolution;
 
@@ -84,7 +84,7 @@ public class DgCtUser implements Serializable,Comparable{
 	private String telNum;
 
 	@Column(name="TOTAL_CREDIT")
-	private int totalCredit;
+	private Integer totalCredit;
 	
 	@ManyToMany
 	@JoinTable(name ="dg_app_down_h", joinColumns=@JoinColumn(name ="USER_ID"),inverseJoinColumns=@JoinColumn(name ="APP_ID"))
@@ -130,19 +130,19 @@ public class DgCtUser implements Serializable,Comparable{
 		this.deviceType = deviceType;
 	}
 
-	public int getExpe() {
+	public Integer getExpe() {
 		return this.expe;
 	}
 
-	public void setExpe(int expe) {
+	public void setExpe(Integer expe) {
 		this.expe = expe;
 	}
 
-	public int getGrade() {
+	public Integer getGrade() {
 		return this.grade;
 	}
 
-	public void setGrade(int grade) {
+	public void setGrade(Integer grade) {
 		this.grade = grade;
 	}
 
@@ -218,11 +218,11 @@ public class DgCtUser implements Serializable,Comparable{
 		this.pass = pass;
 	}
 
-	public int getRemainCredit() {
+	public Integer getRemainCredit() {
 		return this.remainCredit;
 	}
 
-	public void setRemainCredit(int remainCredit) {
+	public void setRemainCredit(Integer remainCredit) {
 		this.remainCredit = remainCredit;
 	}
 
@@ -258,18 +258,18 @@ public class DgCtUser implements Serializable,Comparable{
 		this.telNum = telNum;
 	}
 
-	public int getTotalCredit() {
+	public Integer getTotalCredit() {
 		return this.totalCredit;
 	}
 
-	public void setTotalCredit(int totalCredit) {
+	public void setTotalCredit(Integer totalCredit) {
 		this.totalCredit = totalCredit;
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
+		final Integer prime = 31;
+		Integer result = 1;
 		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
 	}

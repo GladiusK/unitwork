@@ -1,6 +1,7 @@
 package com.yx.baseframe.util;
 
 import java.security.SecureRandom;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -53,5 +54,22 @@ public class RandomUtils {
 		}
 
 		return retStr.toString();
+	}
+
+	/**
+	 * @Title: createRnageRndom
+	 * @Description: TODO(生成一个int型 范围固定的随机数)
+	 * @param @param max
+	 * @param @param min
+	 * @param @return 设定文件
+	 * @return int 返回类型
+	 * @throws
+	 */
+	public static int createRnageRndom(int min, int max) {
+		Random random = new Random();
+		//random.nextInt(max) 生成一个 [0,max]之间的随机数 然后对(max-min+1)取模
+		//以生成[10,20]随机数为例，首先生成0-20的随机数，然后对(20-10+1)取模得到[0-10]之间的随机数，然后加上min=10，最后生成的是10-20的随机数
+		int rs = random.nextInt(max) % (max - min + 1) + min;
+		return rs;
 	}
 }

@@ -127,5 +127,4 @@
 	<jdbc:initialize-database data-source="smartDataSource" enabled="${database.init}" ignore-failures="ALL">
 		<jdbc:script location="classpath:base/sql/smart/${database.type}/import-data.sql" />
 	</jdbc:initialize-database>
-
 </beans>

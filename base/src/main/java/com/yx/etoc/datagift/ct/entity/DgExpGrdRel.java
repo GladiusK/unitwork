@@ -26,16 +26,16 @@ public class DgExpGrdRel implements Serializable {
 	private String gradeId;
 
 	@Column(name="CREDIT_EXTRA")
-	private int creditExtra;
+	private Integer creditExtra;
 
 	@Column(name="EXPE_FLOOR")
-	private int expeFloor;
+	private Integer expeFloor;
 
 	@Column(name="EXPE_TOP")
-	private int expeTop;
+	private Integer expeTop;
 
 	@Column(name="GRADE_COUNT")
-	private int gradeCount;
+	private Integer gradeCount;
 
 	@Column(name="GRADE_ICON")
 	private String gradeIcon;
@@ -58,35 +58,35 @@ public class DgExpGrdRel implements Serializable {
 		this.gradeId = gradeId;
 	}
 
-	public int getCreditExtra() {
+	public Integer getCreditExtra() {
 		return this.creditExtra;
 	}
 
-	public void setCreditExtra(int creditExtra) {
+	public void setCreditExtra(Integer creditExtra) {
 		this.creditExtra = creditExtra;
 	}
 
-	public int getExpeFloor() {
+	public Integer getExpeFloor() {
 		return this.expeFloor;
 	}
 
-	public void setExpeFloor(int expeFloor) {
+	public void setExpeFloor(Integer expeFloor) {
 		this.expeFloor = expeFloor;
 	}
 
-	public int getExpeTop() {
+	public Integer getExpeTop() {
 		return this.expeTop;
 	}
 
-	public void setExpeTop(int expeTop) {
+	public void setExpeTop(Integer expeTop) {
 		this.expeTop = expeTop;
 	}
 
-	public int getGradeCount() {
+	public Integer getGradeCount() {
 		return this.gradeCount;
 	}
 
-	public void setGradeCount(int gradeCount) {
+	public void setGradeCount(Integer gradeCount) {
 		this.gradeCount = gradeCount;
 	}
 

@@ -17,10 +17,10 @@ public class DgTaskUserRel implements Serializable {
 	private DgTaskUserRelPK id;
 
 	@Column(name="COMPLETE_COUNT")
-	private int completeCount;
+	private Integer completeCount;
 
 	@Column(name="TARGET_COUNT")
-	private int targetCount;
+	private Integer targetCount;
 
 	@Column(name="TASK_STATUS")
 	private String taskStatus;
@@ -39,19 +39,19 @@ public class DgTaskUserRel implements Serializable {
 		this.id = id;
 	}
 	
-	public int getCompleteCount() {
+	public Integer getCompleteCount() {
 		return this.completeCount;
 	}
 
-	public void setCompleteCount(int completeCount) {
+	public void setCompleteCount(Integer completeCount) {
 		this.completeCount = completeCount;
 	}
 
-	public int getTargetCount() {
+	public Integer getTargetCount() {
 		return this.targetCount;
 	}
 
-	public void setTargetCount(int targetCount) {
+	public void setTargetCount(Integer targetCount) {
 		this.targetCount = targetCount;
 	}
 

@@ -24,9 +24,9 @@ public class DgCtUserChangeLog implements Serializable {
 	@Column(name="DEVICE_TYPE")
 	private String deviceType;
 
-	private int expe;
+	private Integer expe;
 
-	private int grade;
+	private Integer grade;
 
 	private String imei;
 
@@ -50,7 +50,7 @@ public class DgCtUserChangeLog implements Serializable {
 	private String pass;
 
 	@Column(name="REMAIN_CREDIT")
-	private int remainCredit;
+	private Integer remainCredit;
 
 	private String resolution;
 
@@ -62,7 +62,7 @@ public class DgCtUserChangeLog implements Serializable {
 	private String telNum;
 
 	@Column(name="TOTAL_CREDIT")
-	private int totalCredit;
+	private Integer totalCredit;
 
     public DgCtUserChangeLog() {
     }
@@ -99,19 +99,19 @@ public class DgCtUserChangeLog implements Serializable {
 		this.deviceType = deviceType;
 	}
 
-	public int getExpe() {
+	public Integer getExpe() {
 		return this.expe;
 	}
 
-	public void setExpe(int expe) {
+	public void setExpe(Integer expe) {
 		this.expe = expe;
 	}
 
-	public int getGrade() {
+	public Integer getGrade() {
 		return this.grade;
 	}
 
-	public void setGrade(int grade) {
+	public void setGrade(Integer grade) {
 		this.grade = grade;
 	}
 
@@ -187,11 +187,11 @@ public class DgCtUserChangeLog implements Serializable {
 		this.pass = pass;
 	}
 
-	public int getRemainCredit() {
+	public Integer getRemainCredit() {
 		return this.remainCredit;
 	}
 
-	public void setRemainCredit(int remainCredit) {
+	public void setRemainCredit(Integer remainCredit) {
 		this.remainCredit = remainCredit;
 	}
 
@@ -227,11 +227,11 @@ public class DgCtUserChangeLog implements Serializable {
 		this.telNum = telNum;
 	}
 
-	public int getTotalCredit() {
+	public Integer getTotalCredit() {
 		return this.totalCredit;
 	}
 
-	public void setTotalCredit(int totalCredit) {
+	public void setTotalCredit(Integer totalCredit) {
 		this.totalCredit = totalCredit;
 	}
 
