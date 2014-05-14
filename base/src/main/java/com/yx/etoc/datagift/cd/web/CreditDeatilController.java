@@ -72,7 +72,8 @@ public class CreditDeatilController extends BaseController {
 			msg.setDate(creditdetail.getUpdateTime());
 			msg.setDesc(creditdetail.getRemark());
 			rsMap.put("creditdetail", msg);
-			rsMap.put("sysmsg", "");
+			rsMap.put("sysmsg", null);
+			rsMap.put("custmsg", null);
 			rsMap.put("status", GlobalConstants.CT_OK);
 			return rsMap;
 		}
@@ -97,7 +98,8 @@ public class CreditDeatilController extends BaseController {
 			Pager pager = new Pager();
 			pager.setPage(pagenum);
 			rsMap.put("creditdetail", creditDetailBS.list(pager, user.getUserId()));
-			rsMap.put("sysmsg", "");
+			rsMap.put("sysmsg", null);
+			rsMap.put("custmsg", null);
 			rsMap.put("status", GlobalConstants.CT_OK);
 			return rsMap;
 		}
