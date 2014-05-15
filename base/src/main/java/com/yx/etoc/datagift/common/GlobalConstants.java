@@ -67,4 +67,8 @@ public class GlobalConstants {
 	public static final String CT_CD_CREDIT_REL_ADD = "1";
 	//减少
 	public static final String CT_CD_CREDIT_REL_REDUCE = "2";
+	
+	//抽奖相关
+	//所有奖项已经发放完毕
+	public static final String CT_PRIZE_NO_PRIZE = "138120";
 }

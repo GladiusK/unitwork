@@ -26,13 +26,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.collect.Maps;
 import com.yx.baseframe.util.BaseController;
-import com.yx.baseframe.util.DateTools;
 import com.yx.etoc.datagift.common.GlobalConstants;
 import com.yx.etoc.datagift.ct.entity.DgCtUser;
 import com.yx.etoc.datagift.ct.service.UserBS;
 import com.yx.etoc.datagift.prize.service.PrizeBS;
-import com.yx.etoc.datagift.task.entity.DgTaskInfo;
-import com.yx.etoc.datagift.task.entity.DgTaskUserRel;
 import com.yx.etoc.datagift.task.web.dto.PrizeAppStructure;
 
 /**
@@ -62,8 +59,13 @@ public class PrizeController extends BaseController {
 		String userid = obj.getString("userid");
 		DgCtUser user = this.userBS.getEntityById(DgCtUser.class, userid);
 		if(user != null){
-			rsMap.put("status", GlobalConstants.CT_OK);
-			rsMap.put("prize", prizeBS.rotatePrize());
+			PrizeAppStructure rs = prizeBS.rotatePrize();
+			if(rs == null){
+				rsMap.put("status", GlobalConstants.CT_PRIZE_NO_PRIZE);
+			}else{
+				rsMap.put("status", GlobalConstants.CT_OK);
+				rsMap.put("prize", prizeBS.rotatePrize());
+			}
 			return rsMap;
 		}else{
 			rsMap.put("status", GlobalConstants.CT_NO_USR);
@@ -71,13 +73,4 @@ public class PrizeController extends BaseController {
 		}
 	}
 
-	@RequestMapping(value="/test")
-	@ResponseBody
-	public Map<String,Object> test(){
-		Map<String, Object> rsMap = Maps.newHashMap();
-			rsMap.put("status", GlobalConstants.CT_OK);
-			rsMap.put("prize", prizeBS.rotatePrize());
-			System.out.println("hh");
-			return rsMap;
-	}
 }

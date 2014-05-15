@@ -36,6 +36,10 @@ public class DgPrizeDetail implements Serializable {
 	@Column(name="PRIZE_REMARK")
 	private String prizeRemark;
 
+	@Version
+	@Column(name="version")
+	private Integer version;
+	
 	private BigDecimal weight;
 
     public DgPrizeDetail() {
@@ -103,6 +107,19 @@ public class DgPrizeDetail implements Serializable {
 
 	public void setWeight(BigDecimal weight) {
 		this.weight = weight;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		if(version == null){
+			this.version = 0;
+		}else{
+			this.version = version;
+		}
+		
 	}
 
 }

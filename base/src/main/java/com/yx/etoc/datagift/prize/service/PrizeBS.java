@@ -74,6 +74,7 @@ public class PrizeBS extends BaseBS<DgPrizeDetail> {
 			appPrize.setPrizename(rsObj.getPrizeName());
 			return appPrize;
 		}
+		
 		return null;
 	}
 	/** 
