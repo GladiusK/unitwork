@@ -13,6 +13,8 @@
 
 package com.yx.etoc.datagift.ct.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,7 +55,7 @@ public class UserBS extends BaseBS<DgCtUser>{
 	}
 	/** 
 	* @Title: calculate 
-	* @Description: TODO(每日签到任务) 
+	* @Description: TODO(每日任务) 
 	* @param @param user
 	* @param @param createExp
 	* @param @param taskRel
@@ -63,14 +65,20 @@ public class UserBS extends BaseBS<DgCtUser>{
 	* @throws  
 	*/
 	@Transactional(readOnly = false)
-	public DgCtUser daySignTask(DgCtUser user,DgTaskInfo task,DgTaskUserRel taskRel,String detailType){
-		StringBuffer tmp = new StringBuffer("完成");
-		tmp.append(task.getTaskName()).append(" , 收获").append(task.getCreditCount()).append("积分 , ").append(task.getExpeCount()).append("经验");
-		user = this.calculateAndRecord(user, task.getExpeCount(), task.getCreditCount(), taskRel.getId().getTaskId(), detailType,GlobalConstants.CT_CD_CREDIT_REL_ADD,tmp.toString());
+	public DgCtUser dayTask(DgCtUser user,DgTaskInfo task,DgTaskUserRel taskRel,String detailType){
+		int compCont = taskRel.getCompleteCount();
+		taskRel.setCompleteCount(++compCont);
+		if(taskRel.getTargetCount() <= taskRel.getCompleteCount()){
+			taskRel.setTaskStatus(GlobalConstants.CT_USE);
+			StringBuffer tmp = new StringBuffer("完成");
+			tmp.append(task.getTaskName()).append(" , 收获").append(task.getCreditCount()).append("积分 , ").append(task.getExpeCount()).append("经验");
+			user = this.calculateAndRecord(user, task.getExpeCount(), task.getCreditCount(), taskRel.getId().getTaskId(), detailType,GlobalConstants.CT_CD_CREDIT_REL_ADD,tmp.toString());
+		}
 		taskUserRelBS.updateEntity(taskRel);
 		return user;
 		
 	}
+	
 	/** 
 	* @Title: calculateAndRecord 
 	* @Description: TODO(将记录经验和积分的增加带来的级别提升、级别奖励、以及积分流水记录) 
@@ -122,4 +130,9 @@ public class UserBS extends BaseBS<DgCtUser>{
 		return user;
 	}
 	
+	/*public DgCtUser getUseTask(String userid){
+		String jql = "select u from DgCtUser u join u.tasks t where t.taskType = ?0 and t.taskStatus = ?1 and u.userId = ?2";
+		List<DgCtUser> rs = this.baseDAO.createQueryWithIndexParam(jql, "1","2",userid).getResultList();
+		return rs.get(0);
+	}*/
 }

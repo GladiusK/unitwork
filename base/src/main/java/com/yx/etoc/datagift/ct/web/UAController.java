@@ -30,6 +30,7 @@ import com.yx.etoc.datagift.ct.entity.DgCtUser;
 import com.yx.etoc.datagift.ct.service.ClientBS;
 import com.yx.etoc.datagift.ct.service.UserBS;
 import com.yx.etoc.datagift.ct.web.vo.DgCtInfoVO;
+import com.yx.etoc.datagift.task.entity.DgTaskUserRel;
 import com.yx.etoc.datagift.task.service.TaskUserRelBS;
 
 @Controller
@@ -117,10 +118,11 @@ public class UAController extends BaseController {
 			rsMap.put("pkgname", "198元\n B套餐");
 			rsMap.put("banners", urlLists);
 			rsMap.put("speakers", speakLists);
-			if(taskUserRelBS.checkDayTask(user.getUserId(), GlobalConstants.CT_TASK_DAY_SIGN)){
-				rsMap.put("daysign", "1");
+			DgTaskUserRel rel = taskUserRelBS.getTaskByUser(user.getUserId(), GlobalConstants.CT_TASK_DAY_SIGN,GlobalConstants.CT_USE);
+			if(taskUserRelBS.checkDayTask(rel)){
+				rsMap.put("daysign", GlobalConstants.CT_COMPLETE);
 			}else{
-				rsMap.put("daysign", "0");
+				rsMap.put("daysign", GlobalConstants.CT_NO_COMPLETE);
 			}
 			return rsMap;
 		}else{

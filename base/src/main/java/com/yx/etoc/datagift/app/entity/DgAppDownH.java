@@ -1,6 +1,8 @@
 package com.yx.etoc.datagift.app.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+
 import javax.persistence.*;
 
 
@@ -17,7 +19,7 @@ public class DgAppDownH implements Serializable {
 	private DgAppDownHPK id;
 
 	@Column(name="LAST_UPDATE_TIME")
-	private String lastUpdateTime;
+	private Timestamp lastUpdateTime;
 
     public DgAppDownH() {
     }
@@ -29,13 +31,13 @@ public class DgAppDownH implements Serializable {
 	public void setId(DgAppDownHPK id) {
 		this.id = id;
 	}
-	
-	public String getLastUpdateTime() {
-		return this.lastUpdateTime;
+
+	public Timestamp getLastUpdateTime() {
+		return lastUpdateTime;
 	}
 
-	public void setLastUpdateTime(String lastUpdateTime) {
+	public void setLastUpdateTime(Timestamp lastUpdateTime) {
 		this.lastUpdateTime = lastUpdateTime;
 	}
-
+	
 }

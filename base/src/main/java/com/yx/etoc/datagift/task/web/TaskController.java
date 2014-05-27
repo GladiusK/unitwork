@@ -13,6 +13,7 @@
 
 package com.yx.etoc.datagift.task.web;
 
+import java.sql.Timestamp;
 import java.util.Map;
 
 import net.sf.json.JSONObject;
@@ -72,14 +73,10 @@ public class TaskController extends BaseController {
 		DgCtUser user = this.userBS.getEntityById(DgCtUser.class, userid);
 		if(user != null){
 			rsMap.put("status", GlobalConstants.CT_OK);
-			DgTaskUserRel rel = taskUserRelBS.getTaskByUser(user.getUserId(), GlobalConstants.CT_TASK_DAY_SIGN);
-			if(!taskUserRelBS.checkDayTask(userid, GlobalConstants.CT_TASK_DAY_SIGN)){
-				//对于每日签到任务,判断任务完成时间是不是当天，如果不是，则进行签到加积分
+			DgTaskUserRel rel = taskUserRelBS.getTaskByUser(user.getUserId(), GlobalConstants.CT_TASK_DAY_SIGN, GlobalConstants.CT_USE);
+			if(GlobalConstants.CT_NOUSE.equals(rel.getTaskStatus())){
 				DgTaskInfo task = taskInfoBS.getEntityById(rel.getId().getTaskId());
-				rel.setCompleteCount(1);
-				rel.setTaskStatus("1");
-				rel.setUpdateDate(DateTools.getCurrentDateString());
-				user = userBS.daySignTask(user, task, rel,GlobalConstants.CT_TASK_DAY_SIGN);
+				user = userBS.dayTask(user, task, rel,GlobalConstants.CT_TASK_DAY_SIGN);
 				rsMap.put("status", GlobalConstants.CT_OK);
 				rsMap.put("point", user.getRemainCredit());
 				rsMap.put("exp", user.getExpe());

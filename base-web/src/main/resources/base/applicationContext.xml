@@ -5,5 +5,6 @@
 
 	<description>applicationContext配置列表</description>
 	<import resource="applicationContext-base.xml" />
+	<import resource="applicationContext-task.xml" />
 	<import resource="cache/applicationContext-ehcache.xml" />
 </beans>

@@ -1,7 +1,12 @@
 package com.yx.etoc.datagift.task.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 /**
@@ -25,8 +30,8 @@ public class DgTaskUserRel implements Serializable {
 	@Column(name="TASK_STATUS")
 	private String taskStatus;
 
-	@Column(name="UPDATE_DATE")
-	private String updateDate;
+	@Column(columnDefinition="TIMESTAMP", insertable = false, updatable = false)
+	private Timestamp updateTime;
 
     public DgTaskUserRel() {
     }
@@ -63,12 +68,12 @@ public class DgTaskUserRel implements Serializable {
 		this.taskStatus = taskStatus;
 	}
 
-	public String getUpdateDate() {
-		return this.updateDate;
+	public Timestamp getUpdateTime() {
+		return updateTime;
 	}
 
-	public void setUpdateDate(String updateDate) {
-		this.updateDate = updateDate;
+	public void setUpdateTime(Timestamp updateTime) {
+		this.updateTime = updateTime;
 	}
 
 }

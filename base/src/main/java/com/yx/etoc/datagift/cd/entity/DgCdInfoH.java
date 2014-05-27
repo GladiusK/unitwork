@@ -1,6 +1,8 @@
 package com.yx.etoc.datagift.cd.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+
 import javax.persistence.*;
 
 import com.yx.baseframe.util.DateTools;
@@ -35,9 +37,14 @@ public class DgCdInfoH implements Serializable, Comparable {
 	private String moduleId;
 
 	private String remark;
-
+	
+/*	@Column(columnDefinition="TIMESTAMP", insertable = false, updatable = false) 
+	//加上面那段的目的是让mysql自动更新数据库，如果不加的话，JPA默认插入相同的数据，而mysql为了效率着想，如果timestamp是相同数据就不会进行自动更新
+	 * 这个注解的用途一般是在 需要update 的时候，如果只是单纯的插入（比如记录日志，就不需要）
+	@Temporal(TemporalType.TIMESTAMP)*/
+	@OrderBy("updateTime DESC")
 	@Column(name="UPDATE_TIME")
-	private String updateTime;
+	private Timestamp updateTime;
 
 	@Column(name="EXPE_COUNT")
 	private Integer expeCount;
@@ -109,14 +116,14 @@ public class DgCdInfoH implements Serializable, Comparable {
 		this.remark = remark;
 	}
 
-	public String getUpdateTime() {
-		return this.updateTime;
+	public Timestamp getUpdateTime() {
+		return updateTime;
 	}
 
-	public void setUpdateTime(String updateTime) {
+	public void setUpdateTime(Timestamp updateTime) {
 		this.updateTime = updateTime;
 	}
-	
+
 	public DgAppInfo getAppinfo() {
 		return appinfo;
 	}
@@ -135,9 +142,7 @@ public class DgCdInfoH implements Serializable, Comparable {
 
 	public int compareTo(Object o) {
 		DgCdInfoH obj = (DgCdInfoH)o;
-	//	Integer rs = DateTools.compareStringDate(this.updateTime, obj.updateTime); 升序
-	    Integer rs = DateTools.compareStringDate(obj.updateTime, this.updateTime);
-		return rs;
+		return this.getUpdateTime().compareTo(obj.getUpdateTime());
 	}
 
 	public Integer getExpeCount() {

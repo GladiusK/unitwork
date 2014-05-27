@@ -3,6 +3,8 @@ package com.yx.etoc.datagift.prize.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Date;
 
 
 /**
@@ -40,6 +42,19 @@ public class DgPrizeDetail implements Serializable {
 	@Column(name="version")
 	private Integer version;
 	
+	@Column(columnDefinition="TIMESTAMP", insertable = false, updatable = false) 
+	//加上面那段的目的是让mysql自动更新数据库，如果不加的话，JPA默认插入相同的数据，而mysql为了效率着想，如果timestamp是相同数据就不会进行自动更新
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date test;  
+
+	public Date getTest() {
+		return test;
+	}
+
+	public void setTest(Date test) {
+		this.test = test;
+	}
+
 	private BigDecimal weight;
 
     public DgPrizeDetail() {

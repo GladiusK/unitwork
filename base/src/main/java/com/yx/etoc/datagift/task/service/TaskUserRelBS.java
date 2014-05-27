@@ -3,6 +3,7 @@
 package com.yx.etoc.datagift.task.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yx.baseframe.service.BaseBS;
@@ -39,34 +40,48 @@ public class TaskUserRelBS extends BaseBS<DgTaskUserRel>{
 	* @Description: TODO(根据用户和任务类型，得到唯一的用户任务) 
 	* @param @param userid
 	* @param @param type
+	* @param @param status  1- 启用  0-停用
 	* @param @return    设定文件 
 	* @return DgTaskUserRel    返回类型 
 	* @throws 
 	*/
-	public DgTaskUserRel getTaskByUser(String userid,String type){
+	public DgTaskUserRel getTaskByUser(String userid,String type,String status){
 		String sql ="select obj from DgTaskUserRel obj,DgTaskInfo info where obj.id.taskId = info.taskId and obj.id.userId = ?0 and info.taskType= ?1 and info.taskStatus= ?2 ";
-		DgTaskUserRel taskRel = (DgTaskUserRel) this.baseDAO.createQueryWithIndexParam(sql, userid,type,"1").getSingleResult();
+		DgTaskUserRel taskRel = (DgTaskUserRel) this.baseDAO.createQueryWithIndexParam(sql, userid,type,status).getSingleResult();
 		return taskRel;
 	}
 	
+	
 	/** 
-	* @Title: checkDaySign 
-	* @Description: TODO(天天签到这种任务类型) 
-	* @param @param userid
-	* @param @param type
-	* @param @return    设定文件 
-	* @return boolean    返回类型 
+	* @Title: redoDayTask 
+	* @Description: TODO(对任务状态的修改) 
+	* @param @param taskType
+	* @param @param flag    设定文件 
+	* @return void    返回类型 
 	* @throws 
 	*/
-	public boolean checkDayTask(String userid,String type){
-		DgTaskUserRel rel = this.getTaskByUser(userid, type);
-		if(rel == null){
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void redoDayTask(String taskType,String flag){
+		String jql = "update DgTaskUserRel task set task.taskStatus = ?0 ,task.completeCount = 0 where task.id.taskId in ( select info.taskId from DgTaskInfo info where info.taskType = ?1 )";
+		this.baseDAO.createQueryWithIndexParam(jql, flag,taskType).executeUpdate();
+	}
+	
+	/** 
+	 * @Title: checkDaySign 
+	 * @Description: TODO(天天签到这种任务类型) 
+	 * @param @param DgTaskUserRel
+	 * @param @return 设定文件 
+	 * @return boolean 返回类型 
+	*/
+	public boolean checkDayTask(DgTaskUserRel rel) {
+		if (rel == null) {
 			return false;
 		}
-		if(!DateTools.getCurrentDateString().equals(rel.getUpdateDate()) || "0".equals(rel.getTaskStatus())){
+		if ("0".equals(rel.getTaskStatus())) {
 			return false;
-		}else{
+		} else {
 			return true;
 		}
 	}
+
 }

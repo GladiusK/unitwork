@@ -64,7 +64,7 @@ public class PrizeController extends BaseController {
 				rsMap.put("status", GlobalConstants.CT_PRIZE_NO_PRIZE);
 			}else{
 				rsMap.put("status", GlobalConstants.CT_OK);
-				rsMap.put("prize", prizeBS.rotatePrize());
+				rsMap.put("prize", rs);
 			}
 			return rsMap;
 		}else{

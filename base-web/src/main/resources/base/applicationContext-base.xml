@@ -25,12 +25,11 @@
 			</list>
 		</property>
 	</bean>
-
+	
 	<!-- 使用annotation 自动注册bean,并检查@Required,@Autowired的属性已被注入 -->
-<!-- 	<context:component-scan base-package="com.yx">
+	<context:component-scan base-package="com.yx" use-default-filters="false">
 			<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
-	</context:component-scan> -->
-	<context:component-scan base-package="com.yx"/>
+	</context:component-scan>
 	
 	
 	<!-- 数据源配置,使用应用内的DBCP数据库连接池 -->

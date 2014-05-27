@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
 import com.yx.baseframe.service.BaseBS;
+import com.yx.baseframe.util.DateTools;
 import com.yx.baseframe.util.RandomUtils;
 import com.yx.etoc.datagift.prize.entity.DgPrizeDetail;
 import com.yx.etoc.datagift.task.web.dto.PrizeAppStructure;
@@ -42,11 +43,10 @@ import com.yx.etoc.datagift.task.web.dto.PrizeAppStructure;
 public class PrizeBS extends BaseBS<DgPrizeDetail> {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public PrizeAppStructure rotatePrize(){
-		List<DgPrizeDetail> prizeList = this.getAllEntityList("weight", false);
-		String sql = "select prize from DgPrizeDetail prize ";
-		Query q = this.baseDAO.createQueryWithIndexParam(sql, null);
+		String sql = "select prize from DgPrizeDetail prize where prize.prizeCount > 0 order by prize.weight asc";
+		List<DgPrizeDetail> prizeList  = this.baseDAO.createQueryWithIndexParam(sql, null).getResultList();
 		
-		String jql = "select sum(obj.prizeProba) from DgPrizeDetail obj ";
+		String jql = "select sum(obj.prizeProba) from DgPrizeDetail obj where obj.prizeCount > 0";
 		List<Object> totalRange = (List<Object>) this.baseDAO.createQueryWithIndexParam(jql, null).getResultList();
 		int min = 1;
 		int max = 0;
@@ -94,11 +94,13 @@ public class PrizeBS extends BaseBS<DgPrizeDetail> {
 		for(DgPrizeDetail prize : prizeList){
 			currentProp = prize.getPrizeProba();
 			tmp = RandomUtils.createRnageRndom(min,max);
-			if(tmp < currentProp ){
+			System.out.println("tmp: "+tmp+" current "+currentProp);
+			if(tmp <= currentProp ){
 				if(prize.getPrizeCount() == 0){
 					continue;
 				}
 				prize.setPrizeCount(prize.getPrizeCount() -1 );
+			//	prize.setTest(DateTools.getCurrentDateTime());
 				prize = this.baseDAO.merge(prize);
 				return prize;
 			}else{

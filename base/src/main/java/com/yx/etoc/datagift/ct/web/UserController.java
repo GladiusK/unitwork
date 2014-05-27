@@ -24,6 +24,7 @@ import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
 import com.yx.etoc.datagift.common.GlobalConstants;
 import com.yx.etoc.datagift.ct.entity.DgCtUser;
 import com.yx.etoc.datagift.ct.service.UserBS;
+import com.yx.etoc.datagift.task.entity.DgTaskUserRel;
 import com.yx.etoc.datagift.task.service.TaskUserRelBS;
 
 @Controller
@@ -47,7 +48,7 @@ public class UserController extends BaseController {
 //		 System.out.println(msg);
 //		JSONObject obj = JSONObject.fromObject(rquestParam);
 //		obj.getString("test");
-		DgCtUser user = new DgCtUser();
+		/*DgCtUser user = new DgCtUser();
 		String userid = RandomUtils.uuid2();
 		user.setUserId(userid);
 		user.setTelNum("18333333333");
@@ -56,7 +57,8 @@ public class UserController extends BaseController {
 		user.setImei("jljjlljlkjkl");
 		user.setSex("1");
 		user.setMac("ljljl");
-		user = userBS.createNewUser(user);
+		user = userBS.createNewUser(user);*/
+		
 	}
 	/**
 	 * @Title: register
@@ -177,10 +179,11 @@ public class UserController extends BaseController {
 			rsMap.put("exp", user.getExpe());
 			rsMap.put("tel", user.getTelNum());
 			rsMap.put("point", user.getRemainCredit());
-			if(taskUserRelBS.checkDayTask(user.getUserId(), GlobalConstants.CT_TASK_DAY_SIGN)){
-				rsMap.put("daysign", "1");
+			DgTaskUserRel rel = taskUserRelBS.getTaskByUser(user.getUserId(), GlobalConstants.CT_TASK_DAY_SIGN,GlobalConstants.CT_USE);
+			if(taskUserRelBS.checkDayTask(rel)){
+				rsMap.put("daysign", GlobalConstants.CT_COMPLETE);
 			}else{
-				rsMap.put("daysign", "0");
+				rsMap.put("daysign", GlobalConstants.CT_NO_COMPLETE);
 			}
 			return rsMap;
 		}else{
@@ -209,10 +212,11 @@ public class UserController extends BaseController {
 			rsMap.put("sex", user.getSex());
 			rsMap.put("level", user.getGrade());
 			rsMap.put("exp", user.getExpe());
-			if(taskUserRelBS.checkDayTask(user.getUserId(), GlobalConstants.CT_TASK_DAY_SIGN)){
-				rsMap.put("daysign", "1");
+			DgTaskUserRel rel = taskUserRelBS.getTaskByUser(user.getUserId(), GlobalConstants.CT_TASK_DAY_SIGN,GlobalConstants.CT_USE);
+			if(taskUserRelBS.checkDayTask(rel)){
+				rsMap.put("daysign", GlobalConstants.CT_COMPLETE);
 			}else{
-				rsMap.put("daysign", "0");
+				rsMap.put("daysign", GlobalConstants.CT_NO_COMPLETE);
 			}
 			rsMap.put("point", user.getRemainCredit());
 			return rsMap;

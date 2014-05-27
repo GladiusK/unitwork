@@ -13,6 +13,7 @@
 
 package com.yx.etoc.datagift.ct.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -21,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.collect.Lists;
 import com.yx.baseframe.dao.SearchResult;
 import com.yx.baseframe.service.BaseBS;
-import com.yx.baseframe.util.DateTools;
 import com.yx.baseframe.util.Pager;
 import com.yx.baseframe.util.RandomUtils;
 import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
@@ -42,7 +42,6 @@ public class CreditDetailBS extends BaseBS<DgCdInfoH> {
 	public void saveCustEntity(DgCtUser user,String creditType,String moduleId,int creditCont,String creditRel,int expeCount,String remark){
 		DgCdInfoH cdInfo = new DgCdInfoH();
 		cdInfo.setCtuser(user);
-		cdInfo.setUpdateTime(DateTools.getCurrentStringDateTime());
 		cdInfo.setCreditId(RandomUtils.uuid2());
 		cdInfo.setCreditRel(creditRel);
 		cdInfo.setCreditType(creditType);
@@ -61,7 +60,7 @@ public class CreditDetailBS extends BaseBS<DgCdInfoH> {
 		List<CreditDetailStructure> tmp = Lists.newArrayList();
 		for(DgCdInfoH obj : result){
 			msg = new CreditDetailStructure();
-			msg.setDate(obj.getUpdateTime());
+			//msg.setDate(obj.getUpdateTime());
 			msg.setDesc(obj.getRemark());
 			tmp.add(msg);
 		}

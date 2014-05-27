@@ -1,6 +1,16 @@
 package com.yx.etoc.datagift.common;
 
 public class GlobalConstants {
+	//完成
+	public static final String CT_COMPLETE = "1";
+	//未完成
+	public static final String CT_NO_COMPLETE = "0";
+	
+	//启用
+	public static final String CT_USE = "1";
+	//禁用
+	public static final String CT_NOUSE = "0";
+	
 	//手机注册验证码
 	public static final String TEL_REG_CACHE = "telGegCache";
 	// 应用的上下文路径
@@ -71,4 +81,14 @@ public class GlobalConstants {
 	//抽奖相关
 	//所有奖项已经发放完毕
 	public static final String CT_PRIZE_NO_PRIZE = "138120";
+	
+	//消息类型
+	//系统消息
+	public static final int CT_MSG_SYS = 1;
+	//活动消息
+	public static final int CT_MSG_ACT = 2;
+	//自定义消息
+	public static final int CT_MSG_CUST = 3;
+	
+	
 }

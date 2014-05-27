@@ -23,6 +23,10 @@ import com.yx.etoc.datagift.app.entity.DgAppInfo;
 import com.yx.etoc.datagift.common.GlobalConstants;
 import com.yx.etoc.datagift.ct.entity.DgCtUser;
 import com.yx.etoc.datagift.ct.service.UserBS;
+import com.yx.etoc.datagift.task.entity.DgTaskInfo;
+import com.yx.etoc.datagift.task.entity.DgTaskUserRel;
+import com.yx.etoc.datagift.task.service.TaskInfoBS;
+import com.yx.etoc.datagift.task.service.TaskUserRelBS;
 
 /** 
  * @ClassName: AppDownHBS 
@@ -36,12 +40,24 @@ import com.yx.etoc.datagift.ct.service.UserBS;
 public class AppDownHBS extends BaseBS<DgAppDownH> {
 	@Autowired
 	private UserBS userBS;
+	
+	@Autowired
+	private TaskUserRelBS taskUserRelBS;
+	
+	@Autowired
+	private TaskInfoBS taskInfoBS;
+	
 	@Transactional(readOnly = false)
 	public void afterDown(DgAppDownH downH,DgCtUser user, DgAppInfo appInfo){
 		StringBuffer remark = new StringBuffer("下载").append("\"").append(appInfo.getAppName()).append("\"").append(" , ").append("收获").append(appInfo.getCreditCount()).append("积分 , ").append(appInfo.getExpeCount()).append("经验");
-		user = userBS.calculateAndRecord(user, appInfo.getExpeCount(), appInfo.getCreditCount(), appInfo.getAppId(), appInfo.getActType()=="0"?GlobalConstants.CT_CD_NOFLOW_DOWNLOAD:GlobalConstants.CT_CD_FLOW_DOWNLOAD,GlobalConstants.CT_CD_CREDIT_REL_ADD,remark.toString());
-		userBS.updateEntity(user);
+		user = userBS.calculateAndRecord(user, appInfo.getExpeCount(), appInfo.getCreditCount(), appInfo.getAppId(), appInfo.getActType(),GlobalConstants.CT_CD_CREDIT_REL_ADD,remark.toString());
 		saveEntity(downH);
+		DgTaskUserRel rel = taskUserRelBS.getTaskByUser(user.getUserId(), appInfo.getActType(), GlobalConstants.CT_USE);
+		if(rel != null){
+			DgTaskInfo task = taskInfoBS.getEntityById(rel.getId().getTaskId());
+			userBS.dayTask(user, task, rel,appInfo.getActType());
+			userBS.updateEntity(user);
+		}
 	}
 
 }

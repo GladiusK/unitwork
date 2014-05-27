@@ -2,6 +2,7 @@ package com.yx.etoc.datagift.app.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -17,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -59,19 +62,20 @@ public class DgAppInfo implements Serializable, Comparable {
 	private DgAppCategory category;
 
 	@Column(name = "CREDIT_COUNT")
-	private int creditCount;
+	private Integer creditCount;
 
 	@Column(name = "EXPE_COUNT")
-	private int expeCount;
+	private Integer expeCount;
 
 	@Column(name = "FIRE_RULE")
 	private String fireRule;
 
 	@Column(name = "FLUX_COUNT")
-	private int fluxCount;
+	private Integer fluxCount;
 
-	@Column(name = "LAST_UPDATE_TIME")
-	private String lastUpdateTime;
+	@Column(columnDefinition="TIMESTAMP", insertable = false, updatable = false)
+	@OrderBy("lastUpdateTime DESC")
+	private Timestamp lastUpdateTime;
 
 	@Column(name = "LAST_UPDATE_USER")
 	private String lastUpdateUser;
@@ -89,7 +93,7 @@ public class DgAppInfo implements Serializable, Comparable {
 	@OneToMany(mappedBy="appinfo",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	private List<DgAppImg> imgs = Lists.newArrayList();
 	
-	@ManyToMany(mappedBy="apps")
+	@ManyToMany(mappedBy="apps",fetch = FetchType.LAZY)
 	private Set<DgCtUser> users = Sets.newTreeSet();
 	
 	@OneToMany(mappedBy="appinfo",cascade=CascadeType.REFRESH,fetch=FetchType.LAZY)
@@ -147,22 +151,23 @@ public class DgAppInfo implements Serializable, Comparable {
 		this.appSize = appSize;
 	}
 
-	public int getCreditCount() {
+	public Integer getCreditCount() {
 		return this.creditCount;
 	}
 
-	public void setCreditCount(int creditCount) {
+	public void setCreditCount(Integer creditCount) {
 		this.creditCount = creditCount;
 	}
 
-	public int getExpeCount() {
+	public Integer getExpeCount() {
 		return this.expeCount;
 	}
 
-	public void setExpeCount(int expeCount) {
+	public void setExpeCount(Integer expeCount) {
 		this.expeCount = expeCount;
 	}
 
+	
 	public String getFireRule() {
 		return this.fireRule;
 	}
@@ -171,19 +176,19 @@ public class DgAppInfo implements Serializable, Comparable {
 		this.fireRule = fireRule;
 	}
 
-	public int getFluxCount() {
+	public Integer getFluxCount() {
 		return this.fluxCount;
 	}
 
-	public void setFluxCount(int fluxCount) {
+	public void setFluxCount(Integer fluxCount) {
 		this.fluxCount = fluxCount;
 	}
 
-	public String getLastUpdateTime() {
-		return this.lastUpdateTime;
+	public Timestamp getLastUpdateTime() {
+		return lastUpdateTime;
 	}
 
-	public void setLastUpdateTime(String lastUpdateTime) {
+	public void setLastUpdateTime(Timestamp lastUpdateTime) {
 		this.lastUpdateTime = lastUpdateTime;
 	}
 
@@ -287,8 +292,6 @@ public class DgAppInfo implements Serializable, Comparable {
 	}
 	public int compareTo(Object o) {
 		DgAppInfo obj = (DgAppInfo)o;
-	//	int rs = DateTools.compareStringDate(this.updateTime, obj.updateTime); 升序
-	    int rs = DateTools.compareStringDate(obj.getLastUpdateTime(), this.getLastUpdateTime());
-		return rs;
+		return this.getLastUpdateTime().compareTo(obj.getLastUpdateTime());
 	}
 }

@@ -69,7 +69,7 @@ public class CreditDeatilController extends BaseController {
 			List<DgCdInfoH> rsList =  user.getCreditDetail();
 			DgCdInfoH creditdetail = CollectionUtils.isNotEmpty(rsList)?rsList.get(0):null;
 			CreditDetailStructure msg = new CreditDetailStructure();
-			msg.setDate(creditdetail.getUpdateTime());
+			//msg.setDate(creditdetail.getUpdateTime());
 			msg.setDesc(creditdetail.getRemark());
 			rsMap.put("creditdetail", msg);
 			rsMap.put("sysmsg", null);
@@ -97,9 +97,15 @@ public class CreditDeatilController extends BaseController {
 			int pagenum = obj.getInt("pagenum");
 			Pager pager = new Pager();
 			pager.setPage(pagenum);
-			rsMap.put("creditdetail", creditDetailBS.list(pager, user.getUserId()));
-			rsMap.put("sysmsg", null);
-			rsMap.put("custmsg", null);
+			int msgtype = obj.getInt("msgtype");
+			if(GlobalConstants.CT_MSG_SYS == msgtype){
+				rsMap.put("msgdetail", creditDetailBS.list(pager, user.getUserId()));
+			}else if (GlobalConstants.CT_MSG_ACT == msgtype){
+				//活动信息
+			}else{
+				//自定义信息
+			}
+			
 			rsMap.put("status", GlobalConstants.CT_OK);
 			return rsMap;
 		}

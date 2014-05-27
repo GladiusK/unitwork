@@ -1,16 +1,29 @@
 package com.yx.etoc.datagift.task.entity;
 
+
+
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.yx.etoc.datagift.app.entity.DgAppInfo;
 import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
-import com.yx.etoc.datagift.ct.entity.DgExpGrdRel;
+import com.yx.etoc.datagift.ct.entity.DgCtUser;
 
 
 /**
@@ -19,7 +32,7 @@ import com.yx.etoc.datagift.ct.entity.DgExpGrdRel;
  */
 @Entity
 @Table(name="dg_task_info")
-public class DgTaskInfo implements Serializable {
+public class DgTaskInfo implements Serializable,Comparable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name="TASK_ID")
@@ -28,14 +41,16 @@ public class DgTaskInfo implements Serializable {
 	@Column(name="CREDIT_COUNT")
 	private Integer creditCount;
 
+	@Temporal( TemporalType.TIMESTAMP)
 	@Column(name="END_TIME")
-	private String endTime;
+	private Date endTime;
 
 	@Column(name="EXPE_COUNT")
 	private Integer expeCount;
 
+	@Temporal( TemporalType.TIMESTAMP)
 	@Column(name="START_TIME")
-	private String startTime;
+	private Date startTime;
 
 	@Column(name="TARGET_COUNT")
 	private Integer targetCount;
@@ -55,6 +70,9 @@ public class DgTaskInfo implements Serializable {
 	@OneToMany(mappedBy="dgTaskInfo",cascade={CascadeType.REFRESH},fetch=FetchType.LAZY)
 	@OrderBy("updateTime DESC")
 	private List<DgCdInfoH> dgCdDetail = Lists.newArrayList();
+	
+	@ManyToMany(mappedBy="tasks",fetch = FetchType.LAZY)
+	private Set<DgCtUser> users = Sets.newTreeSet();
 
     public DgTaskInfo() {
     }
@@ -75,14 +93,6 @@ public class DgTaskInfo implements Serializable {
 		this.creditCount = creditCount;
 	}
 
-	public String getEndTime() {
-		return this.endTime;
-	}
-
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
-	}
-
 	public Integer getExpeCount() {
 		return this.expeCount;
 	}
@@ -91,11 +101,19 @@ public class DgTaskInfo implements Serializable {
 		this.expeCount = expeCount;
 	}
 
-	public String getStartTime() {
-		return this.startTime;
+	public Date getEndTime() {
+		return endTime;
 	}
 
-	public void setStartTime(String startTime) {
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
 
@@ -146,5 +164,17 @@ public class DgTaskInfo implements Serializable {
 	public void setDgCdDetail(List<DgCdInfoH> dgCdDetail) {
 		this.dgCdDetail = dgCdDetail;
 	}
+	public int compareTo(Object o) {
+		DgTaskInfo obj = (DgTaskInfo)o;
+		return this.taskType.compareTo(obj.getTaskType());
+	}
 
+	public Set<DgCtUser> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<DgCtUser> users) {
+		this.users = users;
+	}
+	
 }

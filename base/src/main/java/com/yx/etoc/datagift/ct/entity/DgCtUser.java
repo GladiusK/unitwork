@@ -18,11 +18,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.FetchMode;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.yx.baseframe.util.DateTools;
 import com.yx.etoc.datagift.app.entity.DgAppInfo;
 import com.yx.etoc.datagift.cd.entity.DgCdInfoH;
+import com.yx.etoc.datagift.task.entity.DgTaskInfo;
 
 
 /**
@@ -86,16 +89,27 @@ public class DgCtUser implements Serializable,Comparable{
 	@Column(name="TOTAL_CREDIT")
 	private Integer totalCredit;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name ="dg_app_down_h", joinColumns=@JoinColumn(name ="USER_ID"),inverseJoinColumns=@JoinColumn(name ="APP_ID"))
 	private Set<DgAppInfo> apps = Sets.newTreeSet();
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "dg_task_user_rel", joinColumns=@JoinColumn(name = "USER_ID"),inverseJoinColumns=@JoinColumn(name ="TASK_ID"))
+	private Set<DgTaskInfo> tasks = Sets.newTreeSet();
 	
 	@OneToMany(mappedBy="ctuser",cascade=CascadeType.REFRESH,fetch=FetchType.LAZY)
 	@OrderBy("updateTime DESC")
 	private List<DgCdInfoH> creditDetail = Lists.newArrayList();
 	
+    public Set<DgTaskInfo> getTasks() {
+		return tasks;
+	}
 
-    public DgCtUser() {
+	public void setTasks(Set<DgTaskInfo> tasks) {
+		this.tasks = tasks;
+	}
+
+	public DgCtUser() {
     }
 
 	public String getUserId() {

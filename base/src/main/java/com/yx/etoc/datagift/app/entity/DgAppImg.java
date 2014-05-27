@@ -1,11 +1,18 @@
 package com.yx.etoc.datagift.app.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
-
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
 
 
 /**
@@ -30,8 +37,9 @@ public class DgAppImg implements Serializable {
 	@Column(name="IMG_NAME")
 	private String imgName;
 
-	@Column(name="LAST_UPDATE_TIME")
-	private String lastUpdateTime;
+	@Column(columnDefinition="TIMESTAMP",insertable = false, updatable = false)
+	@OrderBy("lastUpdateTime DESC")
+	private Timestamp lastUpdateTime;
 
 	@Column(name="LAST_UPDATE_USER")
 	private String lastUpdateUser;
@@ -72,12 +80,12 @@ public class DgAppImg implements Serializable {
 	public void setImgName(String imgName) {
 		this.imgName = imgName;
 	}
-
-	public String getLastUpdateTime() {
-		return this.lastUpdateTime;
+	
+	public Timestamp getLastUpdateTime() {
+		return lastUpdateTime;
 	}
 
-	public void setLastUpdateTime(String lastUpdateTime) {
+	public void setLastUpdateTime(Timestamp lastUpdateTime) {
 		this.lastUpdateTime = lastUpdateTime;
 	}
 

@@ -21,12 +21,14 @@ package com.yx.etoc.datagift.cd.web.dto;
  *  
  */
 public class CreditDetailStructure {
-	private String date;
+	private Long date;
 	private String desc;
-	public String getDate() {
+	private String url;
+	
+	public Long getDate() {
 		return date;
 	}
-	public void setDate(String date) {
+	public void setDate(Long date) {
 		this.date = date;
 	}
 	public String getDesc() {
@@ -34,6 +36,12 @@ public class CreditDetailStructure {
 	}
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
 	}
 	
 }

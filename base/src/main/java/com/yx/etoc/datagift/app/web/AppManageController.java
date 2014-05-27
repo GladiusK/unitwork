@@ -13,6 +13,7 @@
 
 package com.yx.etoc.datagift.app.web;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +44,10 @@ import com.yx.etoc.datagift.app.web.dto.DataAppStructure.AppProduct;
 import com.yx.etoc.datagift.common.GlobalConstants;
 import com.yx.etoc.datagift.ct.entity.DgCtUser;
 import com.yx.etoc.datagift.ct.service.UserBS;
+import com.yx.etoc.datagift.task.entity.DgTaskInfo;
+import com.yx.etoc.datagift.task.entity.DgTaskUserRel;
+import com.yx.etoc.datagift.task.service.TaskInfoBS;
+import com.yx.etoc.datagift.task.service.TaskUserRelBS;
 
 /** 
  * @ClassName: AppManageController 
@@ -116,7 +121,6 @@ public class AppManageController extends BaseController {
 			pk.setAppId(appid);
 			pk.setUserId(userid);
 			downH.setId(pk);
-			downH.setLastUpdateTime(DateTools.getCurrentStringDateTime());
 			if(user.getApps().contains(appInfo)){
 				rsMap.put("status", GlobalConstants.CT_APP_USER_ALREADY_DOWN);
 				return rsMap;
